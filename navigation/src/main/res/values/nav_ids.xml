@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="camera_flow" type="id" />
+    <item name="collection_flow" type="id" />
+    <item name="core_flow" type="id"/>
+</resources>

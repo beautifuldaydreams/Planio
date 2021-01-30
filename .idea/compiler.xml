@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.7">
+      <module name="Planio.app" target="1.8" />
+      <module name="Planio.camera" target="1.8" />
+      <module name="Planio.collection" target="1.8" />
+      <module name="Planio.core" target="1.8" />
+      <module name="Planio.navigation" target="1.8" />
+      <module name="Planio.storage" target="1.8" />
+      <module name="Planio.uiComponent" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

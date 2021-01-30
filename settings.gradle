@@ -1,0 +1,9 @@
+include ':storage'
+include ':uiComponent'
+include ':model'
+include ':core'
+include ':collection'
+include ':navigation'
+include ':camera'
+include ':app'
+rootProject.name = "Planio"

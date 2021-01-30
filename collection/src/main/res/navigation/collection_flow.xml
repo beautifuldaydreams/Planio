@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/collection_flow"
+    app:startDestination="@id/collectionOverviewFragment">
+
+    <fragment
+        android:id="@+id/collectionOverviewFragment"
+        android:name="com.example.collection.presentation.overview.CollectionOverviewFragment">
+        <action
+            android:id="@+id/action_collectionOverviewFragment_to_collectionIndividualFragment"
+            app:destination="@id/collectionIndividualFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectionIndividualFragment"
+        android:name="com.example.collection.presentation.individual.CollectionIndividualFragment" />
+
+</navigation>
