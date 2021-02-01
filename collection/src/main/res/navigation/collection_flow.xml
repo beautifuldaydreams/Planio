@@ -14,6 +14,10 @@
 
     <fragment
         android:id="@+id/collectionIndividualFragment"
-        android:name="com.example.collection.presentation.individual.CollectionIndividualFragment" />
+        android:name="com.example.collection.presentation.individual.CollectionIndividualFragment">
+        <action
+            android:id="@+id/action_collectionIndividualFragment_to_collectionOverviewFragment"
+            app:destination="@id/collectionOverviewFragment" />
+    </fragment>
 
 </navigation>

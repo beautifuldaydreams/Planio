@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">HOME</string>
+    <string name="collection_individual">COLLECTION INDIVIDUAL</string>
+    <string name="collection_overview">COLLECTION OVERVIEW</string>
+</resources>

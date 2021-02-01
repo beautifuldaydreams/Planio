@@ -2,5 +2,6 @@
 <resources>
     <item name="camera_flow" type="id" />
     <item name="collection_flow" type="id" />
-    <item name="core_flow" type="id"/>
+    <item name="base_flow" type="id"/>
+    <item name="home_flow" type="id"/>
 </resources>
