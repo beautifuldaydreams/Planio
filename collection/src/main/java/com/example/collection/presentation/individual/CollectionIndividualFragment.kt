@@ -23,8 +23,7 @@ class CollectionIndividualFragment: Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_collection_individual, container, false)
 
         binding.toCollectionOverview.setOnClickListener {
-            findNavController().navigate(
-                CollectionIndividualFragmentDirections.actionCollectionIndividualFragmentToCollectionOverviewFragment())
+            findNavController().navigateUp()
         }
         return binding.root
     }

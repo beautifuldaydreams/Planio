@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_collectionOverviewFragment_to_collectionIndividualFragment"
             app:destination="@id/collectionIndividualFragment" />
+        <argument
+            android:name="root_directory"
+            app:argType="string" />
     </fragment>
 
     <fragment

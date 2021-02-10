@@ -183,7 +183,7 @@ class CameraFragment : Fragment(){
     }
 
     fun getOutputDirectory(): File {
-        val mediaDir = activity?.externalMediaDirs?.firstOrNull()?.let {
+        val mediaDir = activity?.getExternalFilesDirs(null)?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
         return if (mediaDir != null && mediaDir.exists()) mediaDir else activity?.filesDir!!
