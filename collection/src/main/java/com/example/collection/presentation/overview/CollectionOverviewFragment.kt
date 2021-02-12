@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,9 +24,11 @@ val EXTENSION_WHITELIST = arrayOf("JPG")
 
 class CollectionOverviewFragment: Fragment(){
 
+
     private lateinit var binding: FragmentCollectionOverviewBinding
-//    private lateinit var viewModel: CollectionOverviewViewModel
-//    private lateinit var viewModelFactory: CollectionOverviewViewModelFactory
+    private val viewModel: CollectionOverviewViewModel by lazy {
+        ViewModelProvider(this).get(CollectionOverviewViewModel::class.java)
+    }
 
     private lateinit var mediaLists: MutableList<File>
 
@@ -38,6 +41,7 @@ class CollectionOverviewFragment: Fragment(){
 
         Log.i("OnCreate", "context: " + context.toString())
 
+        //Todo: Query plant data and file paths through dataclasses and not directly through file paths
         mediaLists = context?.getExternalFilesDir("Planio")?.listFiles { file ->
             EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
         }?.sortedDescending()?.toMutableList() ?: mutableListOf()
@@ -61,13 +65,6 @@ class CollectionOverviewFragment: Fragment(){
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_collection_overview, container, false)
 
-        val application = requireNotNull(this.activity).application
-
-//        viewModelFactory = CollectionOverviewViewModelFactory(CollectionOverviewFragmentArgs.fromBundle(requireArguments()).rootDirectory)
-//        viewModel = ViewModelProvider(this, viewModelFactory)
-//            .get(CollectionOverviewViewModel::class.java)
-//        Log.i("OnCreateView", "viewModel created via Factory")
-
         binding.toCollectionIndividual.setOnClickListener {
             findNavController().navigate(
                 CollectionOverviewFragmentDirections.
@@ -78,7 +75,9 @@ class CollectionOverviewFragment: Fragment(){
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)
         }
 
+        //Todo: bind viewModel to Fragment
         binding.setLifecycleOwner(this)
+//        binding.viewModel = viewModel
 
         Glide.with(this)
             .load(mediaLists[0])

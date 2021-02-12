@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
+import com.example.storage.PlantDatabase
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.*
+import com.example.storage.PlantDatabaseDao
 
 import java.io.File
 import java.nio.ByteBuffer
@@ -29,7 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraFragment : Fragment(){
+class CameraFragment() : Fragment(){
 
     private lateinit var binding: FragmentCameraBinding
 
@@ -61,6 +63,9 @@ class CameraFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
+
+        val application = requireNotNull(storage.activity).application
+        val dataSource = PlantDatabase.getInstance(application).PlantDatabaseDao
 
         binding.mainScreen.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)

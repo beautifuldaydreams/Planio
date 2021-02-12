@@ -10,23 +10,20 @@ import java.util.*
 import androidx.navigation.fragment.navArgs
 import com.example.navigation.NavigationFlow
 
-class CollectionOverviewViewModel(rootDirectory: String): ViewModel() {
+class CollectionOverviewViewModel(): ViewModel() {
 
     private lateinit var mediaList: MutableList<File>
-    private val root = rootDirectory
 
     init {
-        getImagesFromExtStorage()
+//        getImagesFromExtStorage()
     }
 
-    private fun getImagesFromExtStorage() {
-        // Get root directory of media from navigation arguments
-        val rootDirect = File(root)
 
-        // Walk through all files in the root directory
-        // We reverse the order of the list to present the last photos first
-        mediaList = rootDirect.listFiles { file ->
-            EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
-        }?.sortedDescending()?.toMutableList() ?: mutableListOf()
-    }
+//    private fun getImagesFromExtStorage() {
+//        // Walk through all files in the root directory
+//        // We reverse the order of the list to present the last photos first
+//        mediaList = context?.getExternalFilesDir("Planio")?.listFiles { file ->
+//            EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
+//        }?.sortedDescending()?.toMutableList() ?: mutableListOf()
+//    }
 }
