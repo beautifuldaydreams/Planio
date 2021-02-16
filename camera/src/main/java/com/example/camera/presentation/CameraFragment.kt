@@ -20,10 +20,12 @@ import androidx.core.content.ContextCompat
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.lifecycle.MutableLiveData
 import com.example.storage.PlantDatabase
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.*
 import com.example.storage.PlantDatabaseDao
+import com.example.storage.data.PlantIndividual
 
 import java.io.File
 import java.nio.ByteBuffer
@@ -64,8 +66,8 @@ class CameraFragment() : Fragment(){
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
 
-        val application = requireNotNull(storage.activity).application
-        val dataSource = PlantDatabase.getInstance(application).PlantDatabaseDao
+//        val application = requireNotNull(storage.activity).application
+//        val dataSource = PlantDatabase.getInstance(application).PlantDatabaseDao
 
         binding.mainScreen.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)
@@ -157,6 +159,9 @@ class CameraFragment() : Fragment(){
                 val msg = "Photo capture succeeded: $savedUri"
                 Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, msg)
+
+                var newPlant = MutableLiveData<PlantIndividual?>()
+                
             }
         })
     }

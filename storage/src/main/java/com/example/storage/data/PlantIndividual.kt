@@ -16,5 +16,8 @@ data class PlantIndividual (
 
     @ColumnInfo
     var plantFilePath: File,
+
+    @ColumnInfo
+    var plantType: Long = 0L,
 )
 
