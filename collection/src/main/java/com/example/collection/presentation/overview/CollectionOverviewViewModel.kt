@@ -1,16 +1,9 @@
 package com.example.collection.presentation.overview
 
-import android.app.Application
-import android.os.Environment
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.io.File
-import java.util.*
-import androidx.navigation.fragment.navArgs
-import com.example.navigation.NavigationFlow
 
-class CollectionOverviewViewModel(): ViewModel() {
+class CollectionOverviewViewModel(rootDirectory: String) : ViewModel() {
 
     private lateinit var mediaList: MutableList<File>
 

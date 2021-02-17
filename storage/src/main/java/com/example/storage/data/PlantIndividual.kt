@@ -15,7 +15,7 @@ data class PlantIndividual (
     var plantName: String = "",
 
     @ColumnInfo
-    var plantFilePath: File,
+    var plantFilePath: String,
 
     @ColumnInfo
     var plantType: Long = 0L,

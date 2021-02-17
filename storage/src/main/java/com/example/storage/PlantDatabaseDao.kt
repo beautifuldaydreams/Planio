@@ -17,9 +17,8 @@ interface PlantDatabaseDao {
     @Update
     fun update(plant: PlantIndividual)
 
-    //TODO: Determine whether the app should query plant data through it's id or plantName or plantFilePath
     @Query("SELECT * from PlantIndividual WHERE plantFilePath = :file")
-    fun get(file: File): PlantIndividual?
+    fun get(file: String): PlantIndividual?
 
     @Query("DELETE FROM PlantIndividual")
     fun clear()

@@ -21,6 +21,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.lifecycle.MutableLiveData
+import com.example.camera.di.CameraComponentProvider
 import com.example.storage.PlantDatabase
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.*
@@ -32,8 +33,9 @@ import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class CameraFragment() : Fragment(){
+class CameraFragment () : Fragment(){
 
     private lateinit var binding: FragmentCameraBinding
 
@@ -50,6 +52,11 @@ class CameraFragment() : Fragment(){
     override fun onAttach(context: Context) {
         super.onAttach(context)
         safeContext = context
+
+        //Todo: create cameraComponent and inject PlantDatabaseDao
+//        cameraComponent = (safeContext as CameraComponentProvider)
+//            .provideCameraComponent()
+//        cameraComponent.inject(this)
     }
 
     private fun getStatusBarHeight(): Int {
