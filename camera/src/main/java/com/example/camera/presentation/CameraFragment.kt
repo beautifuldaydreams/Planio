@@ -12,6 +12,7 @@ import com.example.camera.databinding.FragmentCameraBinding
 import com.example.navigation.NavigationFlow
 import com.example.navigation.ToFlowNavigatable
 import android.Manifest
+import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,23 +22,25 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.lifecycle.MutableLiveData
-import com.example.camera.di.CameraComponentProvider
-import com.example.storage.PlantDatabase
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.*
 import com.example.storage.PlantDatabaseDao
 import com.example.storage.data.PlantIndividual
 
 import java.io.File
-import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
+//todo: inject CameraViewModel
 class CameraFragment () : Fragment(){
 
     private lateinit var binding: FragmentCameraBinding
+
+    @Inject
+    lateinit var viewModel: CameraViewModel
 
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
@@ -54,9 +57,8 @@ class CameraFragment () : Fragment(){
         safeContext = context
 
         //Todo: create cameraComponent and inject PlantDatabaseDao
-//        cameraComponent = (safeContext as CameraComponentProvider)
-//            .provideCameraComponent()
-//        cameraComponent.inject(this)
+        DaggerCameraComponent.builder().build()
+            .inject(this)
     }
 
     private fun getStatusBarHeight(): Int {
@@ -72,9 +74,6 @@ class CameraFragment () : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
-
-//        val application = requireNotNull(storage.activity).application
-//        val dataSource = PlantDatabase.getInstance(application).PlantDatabaseDao
 
         binding.mainScreen.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)
@@ -120,9 +119,9 @@ class CameraFragment () : Fragment(){
 //            imageAnalyzer = ImageAnalysis.Builder().build().apply {
 //                setAnalyzer(Executors.newSingleThreadExecutor(), CornerAnalyzer {
 //                    val bitmap = viewFinder.bitmap
-////                    val img = Mat()
-////                    Utils.bitmapToMat(bitmap, img)
-////                    bitmap?.recycle()
+//                    val img = Mat()
+//                    Utils.bitmapToMat(bitmap, img)
+//                    bitmap?.recycle()
 //                    // Do image analysis here if you need bitmap
 //                })
 //            }
@@ -167,7 +166,11 @@ class CameraFragment () : Fragment(){
                 Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, msg)
 
-                var newPlant = MutableLiveData<PlantIndividual?>()
+                //Todo: add coroutines and put code into viewModel
+                //Todo: is a repository required??
+//                val newPlant = MutableLiveData<PlantIndividual?>()
+//                newPlant.value!!.plantFilePath = "$savedUri"
+//                databaseDao.insert(newPlant)
                 
             }
         })

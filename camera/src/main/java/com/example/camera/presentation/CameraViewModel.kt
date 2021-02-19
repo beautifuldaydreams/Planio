@@ -4,9 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.storage.PlantDatabase
 import com.example.storage.PlantDatabaseDao
+import javax.inject.Inject
 
-class CameraViewModel(
-    val database: PlantDatabaseDao,
+class CameraViewModel @Inject constructor(
+    val plantDatabaseDao: PlantDatabaseDao,
     application: Application) : AndroidViewModel(application) {
 
 }

@@ -8,7 +8,11 @@ import com.example.storage.data.PlantIndividual
 
 @Database(entities = [PlantIndividual::class], version = 1, exportSchema = false)
 abstract class PlantDatabase : RoomDatabase() {
+
     abstract val plantDatabaseDao : PlantDatabaseDao
+
+    abstract fun databaseDao() : PlantDatabaseDao
+
     companion object {
         @Volatile
         private var INSTANCE: PlantDatabase? = null

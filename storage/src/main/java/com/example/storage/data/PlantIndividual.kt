@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.File
 
-@Entity
+@Entity(tableName = "Plant_Files")
 data class PlantIndividual (
 
     @PrimaryKey(autoGenerate = true)
