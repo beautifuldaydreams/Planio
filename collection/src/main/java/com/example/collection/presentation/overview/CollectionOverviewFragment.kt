@@ -47,9 +47,6 @@ class CollectionOverviewFragment: Fragment(){
         }?.sortedDescending()?.toMutableList() ?: mutableListOf()
         Log.i("OnCreate", "mediaList created")
         Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("jpg").toString())
-        Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("JPG").toString())
-        Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("media").toString())
-
         Log.i("OnCreate", "mediaLists size: " + mediaLists.size.toString())
         
         for (item in mediaLists) {
@@ -75,7 +72,7 @@ class CollectionOverviewFragment: Fragment(){
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)
         }
 
-        //Todo: bind viewModel to Fragment
+        //Todo: bind viewModel to fragment using dagger
         binding.setLifecycleOwner(this)
 //        binding.viewModel = viewModel
 

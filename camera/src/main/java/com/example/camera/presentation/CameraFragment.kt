@@ -12,7 +12,6 @@ import com.example.camera.databinding.FragmentCameraBinding
 import com.example.navigation.NavigationFlow
 import com.example.navigation.ToFlowNavigatable
 import android.Manifest
-import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,12 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
+import com.example.camera.di.DaggerCameraComponent
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.*
-import com.example.storage.PlantDatabaseDao
-import com.example.storage.data.PlantIndividual
 
 import java.io.File
 import java.text.SimpleDateFormat
@@ -34,8 +30,9 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
-//todo: inject CameraViewModel
 class CameraFragment () : Fragment(){
+
+    private var IdNumber = 0
 
     private lateinit var binding: FragmentCameraBinding
 
@@ -56,7 +53,6 @@ class CameraFragment () : Fragment(){
         super.onAttach(context)
         safeContext = context
 
-        //Todo: create cameraComponent and inject PlantDatabaseDao
         DaggerCameraComponent.builder().build()
             .inject(this)
     }
@@ -162,15 +158,14 @@ class CameraFragment () : Fragment(){
 
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                 val savedUri = Uri.fromFile(photoFile)
+                Log.d(TAG,"File: $photoFile")
                 val msg = "Photo capture succeeded: $savedUri"
                 Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, msg)
 
-                //Todo: add coroutines and put code into viewModel
-                //Todo: is a repository required??
-//                val newPlant = MutableLiveData<PlantIndividual?>()
-//                newPlant.value!!.plantFilePath = "$savedUri"
-//                databaseDao.insert(newPlant)
+                //Todo: RXJava on save image use function callback to increase IdNumber by 1
+                viewModel.saveImage(IdNumber, photoFile)
+
                 
             }
         })
