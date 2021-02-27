@@ -7,4 +7,6 @@
     <!-- Declare permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <application android:name="MyApplication"/>
+
 </manifest>

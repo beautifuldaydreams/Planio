@@ -3,4 +3,6 @@
     <string name="main_screen">MAIN SCREEN</string>
     <string name="take_photo">Take Photo</string>
     <string name="app_name">Planio</string>
+    <string name="id_number">"0"</string>
+    <string name="preference_file_key">\"0\"</string>
 </resources>

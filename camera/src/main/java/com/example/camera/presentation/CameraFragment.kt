@@ -13,6 +13,7 @@ import com.example.navigation.NavigationFlow
 import com.example.navigation.ToFlowNavigatable
 import android.Manifest
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
@@ -20,7 +21,9 @@ import androidx.core.content.ContextCompat
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
-import com.example.camera.di.DaggerCameraComponent
+import androidx.fragment.app.viewModels
+import com.example.camera.MyApplication
+//import com.example.camera.di.DaggerCameraComponent
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.util.*
 
@@ -32,12 +35,9 @@ import javax.inject.Inject
 
 class CameraFragment () : Fragment(){
 
-    private var IdNumber = 0
-
     private lateinit var binding: FragmentCameraBinding
 
-    @Inject
-    lateinit var viewModel: CameraViewModel
+    private val viewModel: CameraViewModel by viewModels()
 
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
@@ -53,8 +53,9 @@ class CameraFragment () : Fragment(){
         super.onAttach(context)
         safeContext = context
 
-        DaggerCameraComponent.builder().build()
-            .inject(this)
+        val application = activity?.application
+
+//        (application as MyApplication).cameraComponent.inject(this)
     }
 
     private fun getStatusBarHeight(): Int {
@@ -164,9 +165,8 @@ class CameraFragment () : Fragment(){
                 Log.d(TAG, msg)
 
                 //Todo: RXJava on save image use function callback to increase IdNumber by 1
-                viewModel.saveImage(IdNumber, photoFile)
-
-                
+                viewModel.getNewSpIdNumber()?.toInt()?.let { viewModel.saveImage(it, photoFile) }
+                viewModel.editSpIdNumber()
             }
         })
     }

@@ -26,11 +26,8 @@ class CollectionOverviewFragment: Fragment(){
 
 
     private lateinit var binding: FragmentCollectionOverviewBinding
-    private val viewModel: CollectionOverviewViewModel by lazy {
-        ViewModelProvider(this).get(CollectionOverviewViewModel::class.java)
-    }
 
-    private lateinit var mediaLists: MutableList<File>
+    private val viewModel: CollectionOverviewViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,18 +38,7 @@ class CollectionOverviewFragment: Fragment(){
 
         Log.i("OnCreate", "context: " + context.toString())
 
-        //Todo: Query plant data and file paths through dataclasses and not directly through file paths
-        mediaLists = context?.getExternalFilesDir("Planio")?.listFiles { file ->
-            EXTENSION_WHITELIST.contains(file.extension.toUpperCase(Locale.ROOT))
-        }?.sortedDescending()?.toMutableList() ?: mutableListOf()
-        Log.i("OnCreate", "mediaList created")
-        Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("jpg").toString())
-        Log.i("OnCreate", "mediaLists size: " + mediaLists.size.toString())
-        
-        for (item in mediaLists) {
-            Log.i("OnCreate", println(item.absoluteFile).toString())
-            Log.i("OnCreate", println(item.isFile).toString())
-        }
+        viewModel.retrieveFileList()
     }
 
     override fun onCreateView(
@@ -77,7 +63,7 @@ class CollectionOverviewFragment: Fragment(){
 //        binding.viewModel = viewModel
 
         Glide.with(this)
-            .load(mediaLists[0])
+            .load(viewModel.getImgFromPlantIndividual(viewModel.mediaLists.last()))
             .into(binding.imageView2)
         Log.i("OnCreate", "Glide successful")
 
