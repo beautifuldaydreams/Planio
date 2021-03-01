@@ -164,7 +164,6 @@ class CameraFragment () : Fragment(){
                 Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, msg)
 
-                //Todo: RXJava on save image use function callback to increase IdNumber by 1
                 viewModel.getNewSpIdNumber()?.toInt()?.let { viewModel.saveImage(it, photoFile) }
                 viewModel.editSpIdNumber()
             }

@@ -1,58 +1,59 @@
 package com.example.collection.presentation.overview
-//
-//import android.view.LayoutInflater
-//import android.view.ViewGroup
-//import androidx.recyclerview.widget.DiffUtil
-//import androidx.recyclerview.widget.ListAdapter
-//import androidx.recyclerview.widget.RecyclerView
-//
-///**
-// * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
-// * data, including computing diffs between lists.
-// */
-//class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
-//
-//    /**
-//     * The MarsPropertyViewHolder constructor takes the binding variable from the associated
-//     * GridViewItem, which nicely gives it access to the full [MarsProperty] information.
-//     */
-//    class MarsPropertyViewHolder(private var binding: GridViewItemBinding):
-//        RecyclerView.ViewHolder(binding.root) {
-//        fun bind(marsProperty: MarsProperty) {
-//            binding.property = marsProperty
-//            // This is important, because it forces the data binding to execute immediately,
-//            // which allows the RecyclerView to make the correct view size measurements
-//            binding.executePendingBindings()
-//        }
-//    }
-//
-//    /**
-//     * Allows the RecyclerView to determine which items have changed when the [List] of [MarsProperty]
-//     * has been updated.
-//     */
-//    companion object DiffCallback : DiffUtil.ItemCallback<MarsProperty>() {
-//        override fun areItemsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
-//            return oldItem === newItem
-//        }
-//
-//        override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
-//            return oldItem.id == newItem.id
-//        }
-//    }
-//
-//    /**
-//     * Create new [RecyclerView] item views (invoked by the layout manager)
-//     */
-//    override fun onCreateViewHolder(parent: ViewGroup,
-//                                    viewType: Int): MarsPropertyViewHolder {
-//        return MarsPropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
-//    }
-//
-//    /**
-//     * Replaces the contents of a view (invoked by the layout manager)
-//     */
-//    override fun onBindViewHolder(holder: MarsPropertyViewHolder, position: Int) {
-//        val marsProperty = getItem(position)
-//        holder.bind(marsProperty)
-//    }
-//}
+
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.collection.RTAG
+import com.example.collection.databinding.ImageItemViewBinding
+import com.example.storage.data.PlantPhoto
+
+/**
+ * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
+ * data, including computing diffs between lists.
+ */
+
+
+class CollectionOverviewAdapter : ListAdapter<PlantPhoto,
+        CollectionOverviewAdapter.PlantPhotoViewHolder>(DiffCallback) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PlantPhotoViewHolder {
+        Log.d(RTAG, "in onCreateViewHolder")
+        return PlantPhotoViewHolder(ImageItemViewBinding.inflate(
+            LayoutInflater.from(parent.context)))
+    }
+
+    override fun onBindViewHolder(
+        holder: PlantPhotoViewHolder,
+        position: Int
+    ) {
+        Log.d(RTAG, "in onBindViewHolder")
+        val plantPhoto = getItem(position)
+        holder.bind(plantPhoto)
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<PlantPhoto>() {
+        override fun areItemsTheSame(oldItem: PlantPhoto, newItem: PlantPhoto): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: PlantPhoto, newItem: PlantPhoto): Boolean {
+            return oldItem.plantId == newItem.plantId
+        }
+    }
+
+    class PlantPhotoViewHolder(private var binding:
+                                 ImageItemViewBinding):
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(plantPhoto: PlantPhoto) {
+            Log.d(RTAG, "in bind function in PlantPhotoViewHolder")
+            binding.plantPhoto = plantPhoto
+            binding.executePendingBindings()
+        }
+    }
+}
