@@ -11,6 +11,6 @@ data class PlantPhoto (
 
     var plantFilePath: File,
 
-    var plantType: String,
+    var plantType: Int,
 ) : Serializable
 

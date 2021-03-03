@@ -4,7 +4,7 @@ import java.io.File
 
 data class PlantIndividual (
 
-    val plantId: Long = 0L,
+    val plantId: Int,
 
     val plantName: String = "",
 

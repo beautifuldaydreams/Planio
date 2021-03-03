@@ -34,17 +34,17 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
     fun retrieveFileList() {
         viewModelScope.launch {
             try {
-                mediaLists = context?.getExternalFilesDir("planio/dataclasses")
+                mediaLists = context?.getExternalFilesDir("planio/dataclasses/1")
                     ?.listFiles()?.toMutableList() ?: mutableListOf()
             }catch (e: Exception) {
                 //todo: create a "Directory not found" message in the UI to notify user
-                Log.i("OnCreate", "planio/dataclasses directory not found.")
+                Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
                 return@launch
             }
         }
 
         Log.i("OnCreate", "mediaList created")
-        Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("planio/dataclasses").toString())
+        Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("planio/dataclasses/1").toString())
         Log.i("OnCreate", "mediaLists size: " + mediaLists.size.toString())
 
         for (item in mediaLists) {

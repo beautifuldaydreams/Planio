@@ -164,7 +164,7 @@ class CameraFragment () : Fragment(){
                 Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, msg)
 
-                viewModel.getNewSpIdNumber()?.toInt()?.let { viewModel.saveImage(it, photoFile) }
+                viewModel.getNewSpIdNumber()?.toInt()?.let { viewModel.saveImage(it, photoFile, 1) }
                 viewModel.editSpIdNumber()
             }
         })
