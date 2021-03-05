@@ -52,10 +52,6 @@ class CameraFragment () : Fragment(){
     override fun onAttach(context: Context) {
         super.onAttach(context)
         safeContext = context
-
-        val application = activity?.application
-
-//        (application as MyApplication).cameraComponent.inject(this)
     }
 
     private fun getStatusBarHeight(): Int {
@@ -75,6 +71,9 @@ class CameraFragment () : Fragment(){
         binding.mainScreen.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)
         }
+
+        binding.viewModel = viewModel
+        binding.cameraRecyclerview.adapter = CameraAdapter()
 
         return binding.root
     }
