@@ -13,6 +13,9 @@
         <argument
             android:name="root_directory"
             app:argType="string" />
+        <action
+            android:id="@+id/action_collectionOverviewFragment_to_popupFragment"
+            app:destination="@id/popupFragment" />
     </fragment>
 
     <fragment
@@ -20,6 +23,14 @@
         android:name="com.example.collection.presentation.individual.CollectionIndividualFragment">
         <action
             android:id="@+id/action_collectionIndividualFragment_to_collectionOverviewFragment"
+            app:destination="@id/collectionOverviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/popupFragment"
+        android:name="com.example.collection.presentation.popup.PopupFragment"
+        android:label="PopupFragment" >
+        <action
+            android:id="@+id/action_popupFragment_to_collectionOverviewFragment"
             app:destination="@id/collectionOverviewFragment" />
     </fragment>
 

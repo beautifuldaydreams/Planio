@@ -3,4 +3,8 @@
     <string name="home">HOME</string>
     <string name="collection_individual">COLLECTION INDIVIDUAL</string>
     <string name="collection_overview">COLLECTION OVERVIEW</string>
+    <string name="add_plant">+</string>
+    <string name="plant_name">plant name:</string>
+    <string name="new_plant">new plant</string>
+    <string name="name">name</string>
 </resources>

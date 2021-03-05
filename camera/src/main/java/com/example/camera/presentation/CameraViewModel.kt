@@ -46,9 +46,9 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         return sharedPreferences.getString("spIdNumber", "0")
     }
 
-    fun saveImage(IdNumber: Int, photoFile: File, plantType: Int) {
+    fun saveImage(IdNumber: Int, photoFile: File, photoId: Int) {
 
-        val newImage = PlantPhoto(IdNumber, "ZZ Plant", photoFile, plantType)
+        val newImage = PlantPhoto(IdNumber,  photoFile, photoId)
 
         val dir = File(
             context.getExternalFilesDir(null), "planio/dataclasses"
@@ -60,7 +60,7 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         Log.i(SaveTag, dir.absolutePath)
         Log.i(SaveTag, "${dir.exists()}")
 
-        val dirOne = File(dir, "$plantType")
+        val dirOne = File(dir, "$photoId")
 
         if(!dirOne.exists()){
             dir.mkdirs()

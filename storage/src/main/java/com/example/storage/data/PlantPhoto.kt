@@ -7,10 +7,8 @@ data class PlantPhoto (
 
     val plantId: Int,
 
-    var plantName: String = "",
-
     var plantFilePath: File,
 
-    var plantType: Int,
+    var photoId: Int,
 ) : Serializable
 

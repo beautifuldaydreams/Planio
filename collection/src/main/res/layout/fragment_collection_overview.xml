@@ -48,5 +48,18 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageButton
+            android:id="@+id/add_plant"
+            android:layout_width="76dp"
+            android:layout_height="63dp"
+            android:contentDescription="@string/add_plant"
+            app:layout_constraintBottom_toTopOf="@+id/to_main_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toStartOf="@+id/overview_recycler_view"
+            app:layout_constraintTop_toBottomOf="@+id/to_collection_individual"
+            app:layout_constraintVertical_bias="0.07999998"
+            android:src="@android:drawable/btn_star_big_on" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

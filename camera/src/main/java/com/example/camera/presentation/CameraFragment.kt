@@ -84,6 +84,7 @@ class CameraFragment () : Fragment(){
 
         // Request camera permissions
         if (allPermissionsGranted()) {
+            //Todo: If laggy add coroutine here and make startCamera a suspend function
             startCamera()
         } else {
             requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)

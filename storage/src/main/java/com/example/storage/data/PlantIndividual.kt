@@ -1,6 +1,7 @@
 package com.example.storage.data
 
 import java.io.File
+import java.io.Serializable
 
 data class PlantIndividual (
 
@@ -11,4 +12,4 @@ data class PlantIndividual (
     val plantFilePath: File,
 
     val plantType: String
-)
+) : Serializable
