@@ -22,6 +22,9 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import com.example.camera.MyApplication
 //import com.example.camera.di.DaggerCameraComponent
 import kotlinx.android.synthetic.main.fragment_camera.*
@@ -48,6 +51,8 @@ class CameraFragment () : Fragment(){
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
+
+    private var selectionTracker: SelectionTracker<String>? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -96,6 +101,26 @@ class CameraFragment () : Fragment(){
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 //        cameraExecutor = Executors.newCachedThreadPool()
+
+        selectionTracker = SelectionTracker.Builder(
+            "mySelection",
+            binding.cameraRecyclerview,
+            CameraAdapter.MyItemKeyProvider(binding.cameraRecyclerview.adapter as CameraAdapter),
+            CameraAdapter.MyItemDetailsLookup(binding.cameraRecyclerview),
+            StorageStrategy.createStringStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        ).build()
+
+        (binding.cameraRecyclerview.adapter as CameraAdapter).tracker = selectionTracker
+
+        selectionTracker?.addObserver(
+            object : SelectionTracker.SelectionObserver<String>() {
+                override fun onSelectionChanged() {
+                    super.onSelectionChanged()
+                    val items = selectionTracker?.selection!!.size()
+                }
+            })
     }
 
     private fun startCamera() {
