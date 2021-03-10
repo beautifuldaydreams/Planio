@@ -14,37 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.camera.RTAG
 import com.example.camera.databinding.PlantItemViewBinding
 import com.example.storage.data.PlantIndividual
+import kotlinx.android.synthetic.main.fragment_camera.view.*
 import kotlinx.android.synthetic.main.plant_item_view.view.*
 
-class CameraAdapter : ListAdapter<PlantIndividual,
+class CameraAdapter(private val onClickListener: OnClickListener) : ListAdapter<PlantIndividual,
         CameraAdapter.PlantPhotoViewHolder>(DiffCallback) {
-
-    var tracker: SelectionTracker<String>? = null
 
     init {
         setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long = position.toLong()
-
-    class MyItemKeyProvider(private val adapter: CameraAdapter) : ItemKeyProvider<String>(SCOPE_CACHED)
-    {
-        override fun getKey(position: Int): String? =
-            adapter.currentList[position].plantId.toString()
-        override fun getPosition(key: String): Int =
-            adapter.currentList.indexOfFirst {it.plantId.toString() == key}
-    }
-
-    class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<String>() {
-        override fun getItemDetails(event: MotionEvent): ItemDetails<String>? {
-            val view = recyclerView.findChildViewUnder(event.x, event.y)
-            if (view != null) {
-                return (recyclerView.getChildViewHolder(view) as PlantPhotoViewHolder).getItemDetails()
-            }
-            return null
-        }
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -53,7 +33,7 @@ class CameraAdapter : ListAdapter<PlantIndividual,
         Log.d(RTAG, "in camera onCreateViewHolder")
         return PlantPhotoViewHolder(
             PlantItemViewBinding.inflate(
-            LayoutInflater.from(parent.context)))
+                LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(
@@ -62,9 +42,10 @@ class CameraAdapter : ListAdapter<PlantIndividual,
     ) {
         Log.d(RTAG, "in camera onBindViewHolder")
         val plantId = getItem(position)
-        tracker?.let {
-            holder.bind(plantId, it.isSelected(position.toString()))
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(plantId)
         }
+            holder.bind(plantId)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<PlantIndividual>() {
@@ -78,21 +59,18 @@ class CameraAdapter : ListAdapter<PlantIndividual,
     }
 
     inner class PlantPhotoViewHolder(private var binding:
-                               PlantItemViewBinding):
+                                     PlantItemViewBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(plantInt: PlantIndividual, selected: Boolean = false) = with(itemView) {
+
+        fun bind(plantInt: PlantIndividual) = with(itemView) {
             binding.plantIndividual = plantInt
-            plantSelectedView.isVisible = selected
             binding.executePendingBindings()
         }
 
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
-            object : ItemDetailsLookup.ItemDetails<String>() {
-                override fun getPosition(): Int = adapterPosition
-                override fun getSelectionKey(): String? = getItem(adapterPosition).plantId.toString()
-                override fun inSelectionHotspot(e: MotionEvent): Boolean {
-                    return true
-                }
-            }
+    }
+
+
+    class OnClickListener(val clickListener: (plantIndividual:PlantIndividual) -> Unit) {
+        fun onClick(plantIndividual: PlantIndividual) = clickListener(plantIndividual)
     }
 }

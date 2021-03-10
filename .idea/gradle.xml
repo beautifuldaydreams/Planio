@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/model" />
             <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/openCVLibrary3413" />
             <option value="$PROJECT_DIR$/storage" />
             <option value="$PROJECT_DIR$/uiComponent" />
           </set>

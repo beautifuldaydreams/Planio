@@ -1,42 +1,53 @@
 package com.example.camera.presentation
 
+//import com.example.camera.di.DaggerCameraComponent
+
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.camera.BitmapHelper
 import com.example.camera.R
 import com.example.camera.databinding.FragmentCameraBinding
 import com.example.navigation.NavigationFlow
 import com.example.navigation.ToFlowNavigatable
-import android.Manifest
-import android.content.Context
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.util.Log
-import androidx.core.content.ContextCompat
-import androidx.camera.core.*
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.selection.SelectionPredicates
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StorageStrategy
-import com.example.camera.MyApplication
-//import com.example.camera.di.DaggerCameraComponent
+import com.example.storage.data.PlantPhoto
 import kotlinx.android.synthetic.main.fragment_camera.*
-import java.util.*
-
+import org.opencv.android.BaseLoaderCallback
+import org.opencv.android.LoaderCallbackInterface
+import org.opencv.android.OpenCVLoader
+import org.opencv.android.Utils
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
 import java.io.File
+import java.io.FileInputStream
+import java.io.ObjectInputStream
 import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import javax.inject.Inject
 
 class CameraFragment () : Fragment(){
+
+    val TAG = "CameraFragment"
 
     private lateinit var binding: FragmentCameraBinding
 
@@ -51,8 +62,7 @@ class CameraFragment () : Fragment(){
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-
-    private var selectionTracker: SelectionTracker<String>? = null
+    lateinit var imageMat: Mat
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,7 +70,11 @@ class CameraFragment () : Fragment(){
     }
 
     private fun getStatusBarHeight(): Int {
-        val resourceId = safeContext.resources.getIdentifier("status_bar_height", "dimen", "android")
+        val resourceId = safeContext.resources.getIdentifier(
+            "status_bar_height",
+            "dimen",
+            "android"
+        )
         return if (resourceId > 0) {
             safeContext.resources.getDimensionPixelSize(resourceId)
         } else 0
@@ -78,7 +92,9 @@ class CameraFragment () : Fragment(){
         }
 
         binding.viewModel = viewModel
-        binding.cameraRecyclerview.adapter = CameraAdapter()
+        binding.cameraRecyclerview.adapter = CameraAdapter(CameraAdapter.OnClickListener {
+            viewModel.onSelectForPreview(it)
+        })
 
         return binding.root
     }
@@ -86,6 +102,7 @@ class CameraFragment () : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        OpenCVLoader.initDebug()
         // Request camera permissions
         if (allPermissionsGranted()) {
             //Todo: If laggy add coroutine here and make startCamera a suspend function
@@ -102,25 +119,14 @@ class CameraFragment () : Fragment(){
         cameraExecutor = Executors.newSingleThreadExecutor()
 //        cameraExecutor = Executors.newCachedThreadPool()
 
-        selectionTracker = SelectionTracker.Builder(
-            "mySelection",
-            binding.cameraRecyclerview,
-            CameraAdapter.MyItemKeyProvider(binding.cameraRecyclerview.adapter as CameraAdapter),
-            CameraAdapter.MyItemDetailsLookup(binding.cameraRecyclerview),
-            StorageStrategy.createStringStorage()
-        ).withSelectionPredicate(
-            SelectionPredicates.createSelectAnything()
-        ).build()
-
-        (binding.cameraRecyclerview.adapter as CameraAdapter).tracker = selectionTracker
-
-        selectionTracker?.addObserver(
-            object : SelectionTracker.SelectionObserver<String>() {
-                override fun onSelectionChanged() {
-                    super.onSelectionChanged()
-                    val items = selectionTracker?.selection!!.size()
-                }
-            })
+        viewModel.selectForPreview.observe(viewLifecycleOwner, {
+            if (null != it) {
+                Log.d(TAG, "in selectForPreview Observer")
+                mImageToImageWithEdge()
+                viewModel.selectForPreviewComplete()
+                Log.d(TAG, " selectForPreviewComplete() is \"complete\"")
+            }
+        })
     }
 
     private fun startCamera() {
@@ -144,11 +150,14 @@ class CameraFragment () : Fragment(){
 //                    val img = Mat()
 //                    Utils.bitmapToMat(bitmap, img)
 //                    bitmap?.recycle()
-//                    // Do image analysis here if you need bitmap
+//
+//                    val corner = processPicture(img)
+//                    // Image analysis here
 //                })
 //            }
             // Select back camera
-            val cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+            val cameraSelector =
+                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
 
             try {
                 // Unbind use cases before rebinding
@@ -170,29 +179,37 @@ class CameraFragment () : Fragment(){
         val imageCapture = imageCapture ?: return
 
         // Create timestamped output file to hold the image
-        val photoFile = File(outputDirectory, SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis()) + ".jpg")
+        val photoFile = File(
+            outputDirectory, SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(
+                System.currentTimeMillis()
+            ) + ".jpg"
+        )
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         // Setup image capture listener which is triggered after photo has
         // been taken
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(safeContext), object : ImageCapture.OnImageSavedCallback {
-            override fun onError(exc: ImageCaptureException) {
-                Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-            }
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(safeContext),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onError(exc: ImageCaptureException) {
+                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                }
 
-            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                val savedUri = Uri.fromFile(photoFile)
-                Log.d(TAG,"File: $photoFile")
-                val msg = "Photo capture succeeded: $savedUri"
-                Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
-                Log.d(TAG, msg)
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    val savedUri = Uri.fromFile(photoFile)
+                    Log.d(TAG, "File: $photoFile")
+                    val msg = "Photo capture succeeded: $savedUri"
+                    Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, msg)
 
-                viewModel.getNewSpIdNumber()?.toInt()?.let { viewModel.saveImage(it, photoFile, 1) }
-                viewModel.editSpIdNumber()
-            }
-        })
+                    viewModel.getNewSpIdNumber()?.toInt()
+                        ?.let { viewModel.saveImage(it, photoFile, 1) }
+                    viewModel.editSpIdNumber()
+                }
+            })
     }
 
     override fun onPause() {
@@ -200,21 +217,24 @@ class CameraFragment () : Fragment(){
         isOffline = true
     }
 
-    override fun onResume() {
-        super.onResume()
-        isOffline = false
-    }
-
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(safeContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(safeContext, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    safeContext,
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT
+                ).show()
 //                finish()
             }
         }
@@ -237,6 +257,58 @@ class CameraFragment () : Fragment(){
         var isOffline = false // prevent app crash when goes offline
     }
 
+    fun deselectRemainingList(position: Int, recyclerView: RecyclerView) {
+        val itemCount = recyclerView.adapter?.itemCount
+        for (i in 0 until itemCount!!) {
+            if (i != position){
+                val holder = recyclerView.findViewHolderForAdapterPosition(i)
+//                !holder?.itemView?.plantSelectedView?.isVisible!!
+            }
+        }
+    }
+
+    private fun mImageToImageWithEdge() {
+        Log.d(TAG, "in mImageToImageWithEdge()")
+        val toBeEdgeDetected: File?
+
+        try {
+                toBeEdgeDetected = (context?.getExternalFilesDir("planio/dataclasses/1")
+                    ?.listFiles()?.toMutableList() ?: mutableListOf()).last()
+            }catch (e: Exception) {
+                //todo: create a "Directory not found" message in the UI to notify user
+                Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
+                return
+            }
+
+
+        Log.d(TAG, "${toBeEdgeDetected.absoluteFile}")
+        Log.d(TAG, toBeEdgeDetected.absolutePath)
+        Glide.with(binding.edgeDetectionView.context).load(toBeEdgeDetected).into(binding.edgeDetectionView)
+
+        val file = FileInputStream(toBeEdgeDetected)
+        val inStream = ObjectInputStream(file)
+        val item = inStream.readObject() as PlantPhoto
+
+        val bit = BitmapFactory.decodeFile(item.plantFilePath.toString())
+        detectEdges(bit)
+    }
+
+    private fun detectEdges(bitmap: Bitmap) {
+        Log.d(TAG, "in detectEdges()")
+        val rgba = Mat()
+        Utils.bitmapToMat(bitmap, rgba)
+
+        val edges = Mat(rgba.size(), CvType.CV_8UC1)
+        Imgproc.cvtColor(rgba, edges, Imgproc.COLOR_RGB2GRAY, 4)
+        Imgproc.Canny(edges, edges, 80.0, 100.0)
+
+        val resultBitmap = Bitmap.createBitmap(edges.cols(), edges.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(edges, resultBitmap)
+        BitmapHelper.showBitmap(safeContext, resultBitmap, binding.edgeDetectionView)
+
+        Log.d(TAG, "finished binding")
+    }
+
 //    private class CornerAnalyzer(private val listener: CornersListener) : ImageAnalysis.Analyzer {
 //
 //        private fun ByteBuffer.toByteArray(): ByteArray {
@@ -245,7 +317,7 @@ class CameraFragment () : Fragment(){
 //            get(data)   // Copy the buffer into a byte array
 //            return data // Return the byte array
 //        }
-
+//
 //        @SuppressLint("UnsafeExperimentalUsageError")
 //        override fun analyze(imageProxy: ImageProxy) {
 //            if (!isOffline) {
@@ -253,5 +325,36 @@ class CameraFragment () : Fragment(){
 //            }
 //            imageProxy.close() // important! if it is not closed it will only run once
 //        }
+//    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val mLoaderCallback: BaseLoaderCallback = object : BaseLoaderCallback(safeContext) {
+            override fun onManagerConnected(status: Int) {
+                when (status) {
+                    LoaderCallbackInterface.SUCCESS -> {
+                        Log.i("OpenCV", "OpenCV loaded successfully")
+                        imageMat = Mat()
+                    }
+                    else -> {
+                        super.onManagerConnected(status)
+                    }
+                }
+            }
+        }
+
+        isOffline = false
+        if (!OpenCVLoader.initDebug()) {
+            Log.d(
+                "OpenCV",
+                "Internal OpenCV library not found. Using OpenCV Manager for initialization"
+            )
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, safeContext, mLoaderCallback)
+        } else {
+            Log.d("OpenCV", "OpenCV library found inside package. Using it!")
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS)
+        }
+    }
 
 }

@@ -7,3 +7,4 @@ include ':navigation'
 include ':camera'
 include ':app'
 rootProject.name = "Planio"
+include ':openCVLibrary3413'

@@ -7,6 +7,7 @@
       <module name="Planio.collection" target="1.8" />
       <module name="Planio.core" target="1.8" />
       <module name="Planio.navigation" target="1.8" />
+      <module name="Planio.openCVLibrary3413" target="1.8" />
       <module name="Planio.storage" target="1.8" />
       <module name="Planio.uiComponent" target="1.8" />
     </bytecodeTargetLevel>
