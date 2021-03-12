@@ -34,8 +34,10 @@ import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
+import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
+import org.opencv.core.Scalar
 import org.opencv.imgproc.Imgproc
 import java.io.File
 import java.io.FileInputStream
@@ -293,18 +295,42 @@ class CameraFragment () : Fragment(){
         detectEdges(bit)
     }
 
-    private fun detectEdges(bitmap: Bitmap) {
-        Log.d(TAG, "in detectEdges()")
-        val rgba = Mat()
-        Utils.bitmapToMat(bitmap, rgba)
+    private fun detectEdges(image: Bitmap) {
 
-        val edges = Mat(rgba.size(), CvType.CV_8UC1)
-        Imgproc.cvtColor(rgba, edges, Imgproc.COLOR_RGB2GRAY, 4)
+        val src = Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC4)
+        Utils.bitmapToMat(image, src)
+        val edges = Mat(src.size(), CvType.CV_8UC1)
+
+        Imgproc.cvtColor(src, edges, Imgproc.COLOR_BGRA2GRAY)
         Imgproc.Canny(edges, edges, 80.0, 100.0)
 
-        val resultBitmap = Bitmap.createBitmap(edges.cols(), edges.rows(), Bitmap.Config.ARGB_8888)
-        Utils.matToBitmap(edges, resultBitmap)
-        BitmapHelper.showBitmap(safeContext, resultBitmap, binding.edgeDetectionView)
+        val src1 = edges.clone()
+        val src2 = edges.clone()
+        val alpha = Mat(image.height, image.width, CvType.CV_8UC1)
+
+        Imgproc.threshold(edges, alpha, 155.0, 0.0, Imgproc.THRESH_BINARY_INV);
+
+        val dst = Mat(image.height, image.width, CvType.CV_8UC4)
+//        val listMat = listOf(edges, src1, src2, alpha)
+//        Core.merge(listMat, dst)
+
+        val rgba = mutableListOf<Mat>()
+        rgba.add(edges)
+        rgba.add(src1)
+        rgba.add(src2)
+        rgba.add(alpha)
+        Core.merge(rgba, dst)
+
+        val invertcolormatrix = Mat(image.height, image.width, CvType.CV_8UC4, Scalar(255.0, 255.0, 255.0, 255.0))
+
+        Core.subtract(invertcolormatrix, dst, dst)
+
+
+        val output =
+            Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(dst, output)
+
+        BitmapHelper.showBitmap(safeContext, output, binding.edgeDetectionView)
 
         Log.d(TAG, "finished binding")
     }
