@@ -18,6 +18,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,6 +29,7 @@ import com.example.camera.R
 import com.example.camera.databinding.FragmentCameraBinding
 import com.example.navigation.NavigationFlow
 import com.example.navigation.ToFlowNavigatable
+import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.opencv.android.BaseLoaderCallback
@@ -113,8 +115,22 @@ class CameraFragment () : Fragment(){
             requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
+        viewModel.selectForPreviewComplete()
+
         // Setup the listener for take photo button
-        camera_capture_button.setOnClickListener { takePhoto() }
+        camera_capture_button.setOnClickListener {
+
+            try {
+                if (viewModel.selectForPreview.value == null) {
+                    throw java.lang.NullPointerException()
+                }
+                takePhoto()
+            } catch(e:NullPointerException) {
+                val msg = "Please select plant below before taking a picture"
+                Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+        }
 
         outputDirectory = getOutputDirectory()
 
@@ -124,15 +140,14 @@ class CameraFragment () : Fragment(){
         viewModel.selectForPreview.observe(viewLifecycleOwner, {
             if (null != it) {
                 Log.d(TAG, "in selectForPreview Observer")
-                mImageToImageWithEdge()
-                viewModel.selectForPreviewComplete()
-                Log.d(TAG, " selectForPreviewComplete() is \"complete\"")
+                Log.i(TAG, "Visibility of Preview in Observer: ${binding.viewFinder.isVisible}")
+                Log.i(TAG, "Visibility of Preview in Observer: ${binding.viewFinder.isActivated}")
+                mImageToImageWithEdge(it)
             }
         })
     }
 
     private fun startCamera() {
-//        OpenCVLoader.initDebug()
         val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
         cameraProviderFuture.addListener(Runnable {
@@ -146,17 +161,6 @@ class CameraFragment () : Fragment(){
 
             imageCapture = ImageCapture.Builder().build()
 
-//            imageAnalyzer = ImageAnalysis.Builder().build().apply {
-//                setAnalyzer(Executors.newSingleThreadExecutor(), CornerAnalyzer {
-//                    val bitmap = viewFinder.bitmap
-//                    val img = Mat()
-//                    Utils.bitmapToMat(bitmap, img)
-//                    bitmap?.recycle()
-//
-//                    val corner = processPicture(img)
-//                    // Image analysis here
-//                })
-//            }
             // Select back camera
             val cameraSelector =
                 CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
@@ -190,8 +194,6 @@ class CameraFragment () : Fragment(){
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
-        // Setup image capture listener which is triggered after photo has
-        // been taken
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(safeContext),
@@ -207,9 +209,15 @@ class CameraFragment () : Fragment(){
                     Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
 
-                    viewModel.getNewSpIdNumber()?.toInt()
-                        ?.let { viewModel.saveImage(it, photoFile, 1) }
-                    viewModel.editSpIdNumber()
+//                    try{
+                        viewModel.saveImage(photoFile)
+                        binding.cameraRecyclerview.adapter?.notifyDataSetChanged()
+//                    }catch (e: Exception) {
+//                        Log.i(TAG, "Please select plant to save photo.")
+//                    }
+//                    viewModel.getNewSpIdNumber()?.toInt()
+//                        ?.let { viewModel.saveImage(it, photoFile, 1) }
+//                    viewModel.editSpIdNumber()
                 }
             })
     }
@@ -244,6 +252,7 @@ class CameraFragment () : Fragment(){
     }
 
     fun getOutputDirectory(): File {
+
         val mediaDir = activity?.getExternalFilesDirs(null)?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
@@ -269,33 +278,46 @@ class CameraFragment () : Fragment(){
         }
     }
 
-    private fun mImageToImageWithEdge() {
+    fun mImageToImageWithEdge(plantIndividual: PlantIndividual) {
         Log.d(TAG, "in mImageToImageWithEdge()")
         val toBeEdgeDetected: File?
 
+        val Id = plantIndividual.plantId
+        val specificFile: File?
+
         try {
-                toBeEdgeDetected = (context?.getExternalFilesDir("planio/dataclasses/1")
-                    ?.listFiles()?.toMutableList() ?: mutableListOf()).last()
+                toBeEdgeDetected = context?.getExternalFilesDir("planio/dataclasses")
+                specificFile = (File(toBeEdgeDetected, "$Id")
+                    .listFiles()?.toMutableList() ?: mutableListOf()).last()
             }catch (e: Exception) {
                 //todo: create a "Directory not found" message in the UI to notify user
                 Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
                 return
+            } finally {
+                viewModel.selectForPreviewComplete()
             }
 
 
-        Log.d(TAG, "${toBeEdgeDetected.absoluteFile}")
-        Log.d(TAG, toBeEdgeDetected.absolutePath)
-        Glide.with(binding.edgeDetectionView.context).load(toBeEdgeDetected).into(binding.edgeDetectionView)
+        if (toBeEdgeDetected != null) {
+            Log.d(TAG, "${toBeEdgeDetected!!.absoluteFile}?}")
+        }
+        if (toBeEdgeDetected != null) {
+            Log.d(TAG, toBeEdgeDetected.absolutePath)
+        }
+//        Glide.with(binding.edgeDetectionView.context).load(toBeEdgeDetected).into(binding.edgeDetectionView)
 
-        val file = FileInputStream(toBeEdgeDetected)
+        val file = FileInputStream(specificFile)
         val inStream = ObjectInputStream(file)
         val item = inStream.readObject() as PlantPhoto
 
         val bit = BitmapFactory.decodeFile(item.plantFilePath.toString())
         detectEdges(bit)
-    }
 
+    }
+    //Todo: refactor to viewModel
     private fun detectEdges(image: Bitmap) {
+
+        Log.i(TAG, "Visibility of Preview: ${binding.viewFinder.isVisible}")
 
         val src = Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC4)
         Utils.bitmapToMat(image, src)
@@ -311,8 +333,6 @@ class CameraFragment () : Fragment(){
         Imgproc.threshold(edges, alpha, 155.0, 0.0, Imgproc.THRESH_BINARY_INV);
 
         val dst = Mat(image.height, image.width, CvType.CV_8UC4)
-//        val listMat = listOf(edges, src1, src2, alpha)
-//        Core.merge(listMat, dst)
 
         val rgba = mutableListOf<Mat>()
         rgba.add(edges)
@@ -330,28 +350,12 @@ class CameraFragment () : Fragment(){
             Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(dst, output)
 
+        Log.i(TAG, "Visibility of Preview: ${binding.viewFinder.isVisible}")
+
         BitmapHelper.showBitmap(safeContext, output, binding.edgeDetectionView)
 
         Log.d(TAG, "finished binding")
     }
-
-//    private class CornerAnalyzer(private val listener: CornersListener) : ImageAnalysis.Analyzer {
-//
-//        private fun ByteBuffer.toByteArray(): ByteArray {
-//            rewind()    // Rewind the buffer to zero
-//            val data = ByteArray(remaining())
-//            get(data)   // Copy the buffer into a byte array
-//            return data // Return the byte array
-//        }
-//
-//        @SuppressLint("UnsafeExperimentalUsageError")
-//        override fun analyze(imageProxy: ImageProxy) {
-//            if (!isOffline) {
-//                listener()
-//            }
-//            imageProxy.close() // important! if it is not closed it will only run once
-//        }
-//    }
 
     override fun onResume() {
         super.onResume()

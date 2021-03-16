@@ -41,22 +41,21 @@ fun bindRecyclerView(recyclerView: RecyclerView,
     Log.d(RTAG, "executed camera bindRecyclerView")
 }
 
-fun findLastPlantImage(imgUrl: File): PlantPhoto? {
+fun findLastPlantImage(imgUrl: File): File? {
 
     var item: PlantPhoto? = null
 
     Log.i(RTAG, "in findLastPlantImage")
     //Todo: get photo if not found load empty photo
     //Todo: query list by descending to find latest photo
-    val lastPhoto = File(imgUrl, "1")
-    Log.i(RTAG, "last photo path: ${lastPhoto.absolutePath}")
-    Log.i(RTAG, "last photo file: ${lastPhoto.absoluteFile}")
+
     try{
+        val lastPhoto = File(imgUrl.toString()).listFiles()?.last()
         val file = FileInputStream(lastPhoto)
         val inStream = ObjectInputStream(file)
         item = inStream.readObject() as PlantPhoto
     } catch (e:Exception){
         e.printStackTrace()
     }
-    return item
+        return item?.plantFilePath
 }

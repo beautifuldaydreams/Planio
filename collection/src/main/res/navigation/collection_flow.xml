@@ -10,9 +10,6 @@
         <action
             android:id="@+id/action_collectionOverviewFragment_to_collectionIndividualFragment"
             app:destination="@id/collectionIndividualFragment" />
-        <argument
-            android:name="root_directory"
-            app:argType="string" />
         <action
             android:id="@+id/action_collectionOverviewFragment_to_popupFragment"
             app:destination="@id/popupFragment" />
@@ -24,6 +21,10 @@
         <action
             android:id="@+id/action_collectionIndividualFragment_to_collectionOverviewFragment"
             app:destination="@id/collectionOverviewFragment" />
+        <argument
+            android:name="selectedPlant"
+            app:argType="com.example.storage.data.PlantIndividual"
+            />
     </fragment>
     <fragment
         android:id="@+id/popupFragment"

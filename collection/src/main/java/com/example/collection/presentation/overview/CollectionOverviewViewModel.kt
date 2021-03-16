@@ -11,6 +11,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.collection.R
+import com.example.storage.SharedPreferences.Companion.editSpIdNumber
+import com.example.storage.SharedPreferences.Companion.getNewSpIdNumber
 import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 import com.google.android.material.tabs.TabLayout
@@ -20,33 +22,47 @@ import java.io.*
 class CollectionOverviewViewModel(application: Application) : AndroidViewModel(application) {
 
     private val TAG = "CollectionOverviewViewModel"
+    private val debug1 = "DEBUG1"
 
-    lateinit var mediaLists: MutableList<File>
+    private lateinit var mediaLists: MutableList<File>
+
     private val context = getApplication<Application>().applicationContext
-//    var dialog : Dialog
 
     //Todo: check that newList is always initialized before usage
-    private var newList = mutableListOf<PlantPhoto>()
+    private var newList = mutableListOf<PlantIndividual>()
 
-    private val _newListLiveData = MutableLiveData<MutableList<PlantPhoto>>()
-    val newListLiveData: MutableLiveData<MutableList<PlantPhoto>>
+    private val _navigateToSelectedPlant = MutableLiveData<PlantIndividual>()
+    val navigateToSelectedPlant: LiveData<PlantIndividual>
+        get() = _navigateToSelectedPlant
+
+    private val _newListLiveData = MutableLiveData<MutableList<PlantIndividual>>()
+    val newListLiveData: LiveData<MutableList<PlantIndividual>>
         get() = _newListLiveData
 
     init {
         retrieveFileList()
         Log.i("OnCreate", "mediaList retrieved")
-        changeToPlantPhotos(mediaLists)
+        changeToPlantIndividuals(mediaLists)
         Log.i("OnCreate", "function changeToPlantPhoto(mediaLists) executed")
-
-//        dialog = Dialog(application)
     }
 
-    //Todo: change to new filing system
+    fun displayPlantDetails(plantIndividual: PlantIndividual) {
+        _navigateToSelectedPlant.value = plantIndividual
+    }
+
+    fun displayPlantDetailsComplete() {
+        _navigateToSelectedPlant.value = null
+    }
+
     fun retrieveFileList() {
         viewModelScope.launch {
             try {
-                mediaLists = context?.getExternalFilesDir("planio/dataclasses/1")
-                    ?.listFiles()?.toMutableList() ?: mutableListOf()
+                mediaLists = context?.getExternalFilesDir("planio/plants")
+                    ?.listFiles()?.sortedDescending()?.toMutableList() ?: mutableListOf()
+
+//                for (item in mediaLists) {
+//                    Log.i(TAG, "BigMediaList.absolutePath: " + item.absolutePath)
+//                }
             }catch (e: Exception) {
                 //todo: create a "Directory not found" message in the UI to notify user
                 Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
@@ -56,44 +72,42 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
 
         Log.i("OnCreate", "mediaList created")
         Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("planio/dataclasses/1").toString())
-        Log.i("OnCreate", "mediaLists size: " + mediaLists.size.toString())
-
-        for (item in mediaLists) {
-            Log.i("OnCreate", "mediaList.absolutePath: " + item.absolutePath)
-        }
+        Log.i("OnCreate", "mediaLists size: " + mediaLists?.size.toString())
     }
 
-    //Todo: change for new filing system
-    fun changeToPlantPhotos(plantList: MutableList<File>) {
+    private fun changeToPlantIndividuals(plantList: MutableList<File>) {
         viewModelScope.launch {
             plantList.map {
                 val file = FileInputStream(it)
                 val inStream = ObjectInputStream(file)
-                val item = inStream.readObject() as PlantPhoto
+                val item = inStream.readObject() as PlantIndividual
                 newList.add(item)
             }
 
             for (item in newList) {
-                Log.i("OnCreate", "PlantFilePath: " + item.plantFilePath.toString())
+                Log.i("OnCreate", "PlantIndividualListPath: " + item.plantFilePath.toString())
             }
 
-            newListLiveData.value = newList
-            Log.i("OnCreate", "newListLiveData has value.")
+            _newListLiveData.value = newList
+            Log.i("OnCreate", "newListIndividualLiveData has value.")
         }
     }
 
     fun makeNewPlant(name: String) {
 
-        //Todo: make plantID SharedPreference
-        //Todo: get plantFilePath to dataclass PlantPhoto based on plantId
+        val plntIndiSPNum = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context)?.toInt()
+        val plantPhotoSPKey = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context)?.toInt()
+        val plantPhotoSPValue = getNewSpIdNumber(plantPhotoSPKey.toString(), context)?.toInt()
 
-        val plntIndiSPNum = getNewSpIdNumber()?.toInt()
+        Log.i(TAG, "plntIndiSPNum: $plntIndiSPNum")
+        Log.i(TAG, "plantPhotoSPKey: $plantPhotoSPKey")
+        Log.i(TAG, "plantPhotoSPValue: $plantPhotoSPValue")
 
         val plantPhotoFilePath = File(context.getExternalFilesDir(null), "planio/dataclasses")
         if (!plantPhotoFilePath.exists()) {
             plantPhotoFilePath.mkdirs()
         }
-        val specificPlantPath = File(plantPhotoFilePath, "$plntIndiSPNum")
+        val specificPlantPath = File(plantPhotoFilePath, "$plantPhotoSPValue")
         if(!specificPlantPath.exists()){
             specificPlantPath.mkdirs()
         }
@@ -124,38 +138,10 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         plantFile.close()
         Log.i(TAG, "Image saved successfully ${dirOne.absolutePath}")
 
-        editSpIdNumber()
-    }
+        editSpIdNumber("plntIndiSPNum", context)
 
-    private fun editSpIdNumber() {
-        val sharedPreferences : SharedPreferences = context.getSharedPreferences(
-            "plntIndiSPNum",
-            Context.MODE_PRIVATE
-        )
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        var num = sharedPreferences.getString("plntIndiSPNum", "0")?.toInt()
-        if (num != null) {
-            num++
-        }
-        editor.putString("plntIndiSPNum", num.toString())
-        editor.apply()
-    }
-
-    private fun getNewSpIdNumber() : String? {
-        val sharedPreferences : SharedPreferences = context.getSharedPreferences(
-            "plntIndiSPNum",
-            Context.MODE_PRIVATE
-        )
-        return sharedPreferences.getString("plntIndiSPNum", "0")
-    }
-
-    fun getImgFromPlantIndividual(dataclassFile : File): File {
-        val file = FileInputStream(dataclassFile)
-        val inStream = ObjectInputStream(file)
-        // Method for deserialization of object
-        val item = inStream.readObject() as PlantPhoto
-        inStream.close()
-        file.close()
-        return item.plantFilePath
+        Log.i(TAG, "plntIndiSPNum: $plntIndiSPNum")
+        Log.i(TAG, "plantPhotoSPKey: $plantPhotoSPKey")
+        Log.i(TAG, "plantPhotoSPValue: $plantPhotoSPValue")
     }
 }

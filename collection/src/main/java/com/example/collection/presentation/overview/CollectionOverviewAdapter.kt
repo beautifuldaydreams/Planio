@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collection.RTAG
 import com.example.collection.databinding.ImageItemViewBinding
+import com.example.collection.presentation.individual.CollectionIndividualAdapter
+import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 
 /**
@@ -16,44 +18,51 @@ import com.example.storage.data.PlantPhoto
  */
 
 
-class CollectionOverviewAdapter : ListAdapter<PlantPhoto,
-        CollectionOverviewAdapter.PlantPhotoViewHolder>(DiffCallback) {
+class CollectionOverviewAdapter(private val onClickListener: OnClickListener) : ListAdapter<PlantIndividual,
+        CollectionOverviewAdapter.PlantIndividualViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PlantPhotoViewHolder {
+    ): PlantIndividualViewHolder {
         Log.d(RTAG, "in onCreateViewHolder")
-        return PlantPhotoViewHolder(ImageItemViewBinding.inflate(
+        return PlantIndividualViewHolder(ImageItemViewBinding.inflate(
             LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(
-        holder: PlantPhotoViewHolder,
+        holder: PlantIndividualViewHolder,
         position: Int
     ) {
         Log.d(RTAG, "in onBindViewHolder")
         val plantPhoto = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(plantPhoto)
+        }
         holder.bind(plantPhoto)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<PlantPhoto>() {
-        override fun areItemsTheSame(oldItem: PlantPhoto, newItem: PlantPhoto): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<PlantIndividual>() {
+        override fun areItemsTheSame(oldItem: PlantIndividual, newItem: PlantIndividual): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: PlantPhoto, newItem: PlantPhoto): Boolean {
+        override fun areContentsTheSame(oldItem: PlantIndividual, newItem: PlantIndividual): Boolean {
             return oldItem.plantId == newItem.plantId
         }
     }
 
-    class PlantPhotoViewHolder(private var binding:
+    class PlantIndividualViewHolder(private var binding:
                                  ImageItemViewBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(plantPhoto: PlantPhoto) {
+        fun bind(plantPhoto: PlantIndividual) {
             Log.d(RTAG, "in bind function in PlantPhotoViewHolder")
-            binding.plantPhoto = plantPhoto
+            binding.plantIndividual = plantPhoto
             binding.executePendingBindings()
         }
+    }
+
+    class OnClickListener(val clickListener: (plantIndividual:PlantIndividual) -> Unit) {
+        fun onClick(plantIndividual: PlantIndividual) = clickListener(plantIndividual)
     }
 }

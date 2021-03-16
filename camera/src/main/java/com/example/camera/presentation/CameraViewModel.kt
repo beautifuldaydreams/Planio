@@ -1,15 +1,14 @@
 package com.example.camera.presentation
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.storage.SharedPreferences.Companion.editSpIdNumber
+import com.example.storage.SharedPreferences.Companion.getNewSpIdNumber
 import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 import kotlinx.coroutines.launch
@@ -43,7 +42,6 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         if (!this::spIdNumber.isInitialized) {
             spIdNumber = "0"
         }
-
         retrievePlantIndividualFileList()
         Log.i("OnCreate", "PlantIndividualFileList retrieved")
         changeToPlantIndividuals(individualFileList)
@@ -61,14 +59,12 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
                 return@launch
             }
         }
-
         Log.i("OnCreate", "individualFileList created")
         Log.i(
             "OnCreate",
             "IndividualFile path: " + context?.getExternalFilesDir("planio/plants").toString()
         )
         Log.i("OnCreate", "individualFileList size: " + individualFileList.size.toString())
-
         for (item in individualFileList) {
             Log.i("OnCreate", "individualFileList.absolutePath: " + item.absolutePath)
         }
@@ -82,44 +78,27 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
                 val item = inStream.readObject() as PlantIndividual
                 plantIndividualList.add(item)
             }
-
             for (item in plantIndividualList) {
                 Log.i("OnCreate", "PlantIndividualListPath: " + item.plantFilePath.toString())
             }
-
             newListIndividualLiveData.value = plantIndividualList
             Log.i("OnCreate", "newListIndividualLiveData has value.")
         }
     }
 
-    //Todo: change this to plant specific SPIdNumber
-    fun editSpIdNumber() {
-        val sharedPreferences : SharedPreferences = context.getSharedPreferences(
-            "spIdNumber",
-            Context.MODE_PRIVATE
-        )
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        var num = sharedPreferences.getString("spIdNumber", "0")?.toInt()
-        if (num != null) {
-            num++
-        }
-        editor.putString("spIdNumber", num.toString())
-        editor.apply()
-    }
-
-    //Todo: change this to plant specific SPIdNumber
-    fun getNewSpIdNumber() : String? {
-        val sharedPreferences : SharedPreferences = context.getSharedPreferences(
-            "spIdNumber",
-            Context.MODE_PRIVATE
-        )
-        return sharedPreferences.getString("spIdNumber", "0")
-    }
-
     //Todo: save image to chosen plant in recycler view
-    fun saveImage(IdNumber: Int, photoFile: File, photoId: Int) {
+    fun saveImage(photoFile: File) {
 
-        val newImage = PlantPhoto(IdNumber, photoFile, photoId)
+        val plantIndi = selectForPreview.value
+        val SPNum = getNewSpIdNumber(
+            plantIndi?.plantId.toString(), context)?.toInt()
+        Log.i(SaveTag, "SPNum key: ${plantIndi?.plantId} SPNum value: $SPNum")
+        Log.i(SaveTag, "SPNum key: ${plantIndi?.plantId} SPNum value: $SPNum")
+
+        val newImage = SPNum?.let {
+            plantIndi?.plantId?.let { it1 -> PlantPhoto(it1, photoFile, it) }
+        }
+        Log.i(SaveTag, "newImage.plantId: ${plantIndi?.plantId} newImage.photoId: ${SPNum}")
 
         val dir = File(
             context.getExternalFilesDir(null), "planio/dataclasses"
@@ -129,20 +108,22 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
             Log.i(SaveTag, dir.absolutePath)
         }
         Log.i(SaveTag, dir.absolutePath)
-        Log.i(SaveTag, "${dir.exists()}")
 
-        val dirOne = File(dir, "$photoId")
+        val dirOne = File(dir, "${plantIndi?.plantId}")
 
         if(!dirOne.exists()){
             dir.mkdirs()
-            Log.i(SaveTag, "After dirOne made: $dirOne.absolutePath")
+            Log.i(SaveTag, "After dirOne made: $dirOne")
         }
 
         Log.i(SaveTag, dirOne.absolutePath)
         Log.i(SaveTag, dirOne.isFile.toString())
         Log.i(SaveTag, dirOne.isDirectory.toString())
 
-        val dataClassLocation = File(dirOne, "$IdNumber")
+        val dataClassLocation = File(dirOne, "$SPNum")
+        Log.i(SaveTag, "After dirOne made: $dataClassLocation")
+
+        editSpIdNumber(plantIndi?.plantId.toString(), context)
 
         if (dataClassLocation.exists()) {
             dataClassLocation.delete()
@@ -151,7 +132,6 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
             dataClassLocation.createNewFile()
         }
 
-
         val plantFile = FileOutputStream(dataClassLocation, true)
         val outStream = ObjectOutputStream(plantFile)
 
@@ -159,6 +139,9 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         outStream.writeObject(newImage)
         outStream.close()
         plantFile.close()
+
+        editSpIdNumber(SPNum.toString(), context)
+        Log.i(SaveTag, "AFTER SAVING - SPNum key: ${plantIndi?.plantId} SPNum value: $SPNum")
         Log.i(SaveTag, "Image saved successfully")
     }
 
@@ -170,22 +153,5 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
     fun selectForPreviewComplete() {
         _selectForPreview.value = null
     }
-
-    fun detectEdges(bitmap: Bitmap) {
-        val rgba = Mat()
-        Utils.bitmapToMat(bitmap, rgba)
-        val edges = Mat(rgba.size(), CvType.CV_8UC1)
-        Imgproc.cvtColor(rgba, edges, Imgproc.COLOR_RGB2GRAY, 4)
-        Imgproc.Canny(edges, edges, 80.0, 100.0)
-
-        // Don't do that at home or work it's for visualization purpose.
-//        BitmapHelper.showBitmap(this, bitmap, imageView)
-//        val resultBitmap = Bitmap.createBitmap(edges.cols(), edges.rows(), Bitmap.Config.ARGB_8888)
-//        Utils.matToBitmap(edges, resultBitmap)
-//        BitmapHelper.showBitmap(this, resultBitmap, detectEdgesImageView)
-    }
-
-//    fun mImageToImageWithEdge(int: Int) {
-//
-//    }
 }
+
