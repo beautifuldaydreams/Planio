@@ -12,8 +12,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.collection.RTAG
 import com.example.collection.databinding.FragmentCollectionIndividualBinding
+import com.example.collection.presentation.overview.CollectionOverviewAdapter
 import com.example.collection.presentation.overview.CollectionOverviewViewModel
 
 
@@ -42,12 +47,32 @@ class CollectionIndividualFragment: Fragment() {
 
         binding.testIndividual.text = plantIndividual.plantName
 
-        binding.collectionIndividualRecyclerview.adapter = CollectionIndividualAdapter()
+        binding.collectionIndividualRecyclerview.adapter = CollectionIndividualAdapter((CollectionIndividualAdapter.OnClickListener{
+            viewModel.displayPlantPhoto(it)
+        }))
 
         binding.plantPhoto = viewModel.plantPhotoDisplay.value
 
-        binding.viewModel = viewModel
+        binding.collectionIndividualRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
+                val myLayoutManager: LinearLayoutManager  = binding.collectionIndividualRecyclerview.layoutManager as LinearLayoutManager
+                val scrollPosition = myLayoutManager.findFirstVisibleItemPosition()
+
+                val imgUrl = viewModel.newPhotoList[scrollPosition].plantFilePath
+                imgUrl.let {
+                    Glide.with(binding.collectionIndividualImageview)
+                        .load(imgUrl)
+                        .apply(
+                            RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.ic_broken_image))
+                        .into(binding.collectionIndividualImageview)
+                }
+            }
+        })
+
+        binding.viewModel = viewModel
         return binding.root
     }
 }

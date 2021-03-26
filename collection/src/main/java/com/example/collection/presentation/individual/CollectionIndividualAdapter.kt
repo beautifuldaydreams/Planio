@@ -14,11 +14,12 @@ import com.example.collection.presentation.overview.CollectionOverviewAdapter
 import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 
-class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
+class CollectionIndividualAdapter(private val onClickListener: OnClickListener) : ListAdapter<PlantPhoto,
         CollectionIndividualAdapter.PlantPhotoViewHolder>(DiffCallback) {
 
     val TAG: String = "CollectionIndividualAdapter"
     val debug1 = "DEBUG1"
+    val scroll = "SCROLL"
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,6 +35,9 @@ class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
         position: Int
     ) {
         val plantPhoto = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(plantPhoto)
+        }
         holder.bind(plantPhoto)
     }
 
@@ -54,7 +58,6 @@ class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
         fun bind(plantPhoto: PlantPhoto) {
             Log.d("DEBUG1", "path ${plantPhoto.plantFilePath}")
             binding.plantPhoto = plantPhoto
-            binding.executePendingBindings()
         }
     }
 
@@ -62,3 +65,4 @@ class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
         fun onClick(plantPhoto: PlantPhoto) = clickListener(plantPhoto)
     }
 }
+

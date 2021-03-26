@@ -28,7 +28,7 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
 
     lateinit var mediaLists: MutableList<File>
     lateinit var mediaPlantList: MutableList<File>
-    private var newPhotoList = mutableListOf<PlantPhoto>()
+    var newPhotoList = mutableListOf<PlantPhoto>()
     private var newList = mutableListOf<PlantIndividual>()
 
     private val context = getApplication<Application>().applicationContext
@@ -67,6 +67,9 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         _navigateToSelectedPlant.value = null
     }
 
+    fun displayPlantPhoto(plantPhoto: PlantPhoto) {
+        _plantPhotoDisplay.value = plantPhoto
+    }
 
     fun retrieveFileList() {
         viewModelScope.launch {
