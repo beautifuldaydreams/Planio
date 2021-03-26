@@ -42,6 +42,7 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         if (!this::spIdNumber.isInitialized) {
             spIdNumber = "0"
         }
+        selectForPreviewComplete()
         retrievePlantIndividualFileList()
         Log.i("OnCreate", "PlantIndividualFileList retrieved")
         changeToPlantIndividuals(individualFileList)
@@ -148,6 +149,8 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
     fun onSelectForPreview(plantIndividual: PlantIndividual){
 
         _selectForPreview.value = plantIndividual
+        Log.i(SaveTag, "select for preview value: ${selectForPreview.value}")
+        Log.i(SaveTag, "select for preview value: ${selectForPreview.value?.plantId}")
     }
 
     fun selectForPreviewComplete() {

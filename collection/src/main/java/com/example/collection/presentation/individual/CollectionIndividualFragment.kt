@@ -21,31 +21,32 @@ class CollectionIndividualFragment: Fragment() {
 
     private lateinit var binding: FragmentCollectionIndividualBinding
 
-    private val viewModel: CollectionOverviewViewModel by viewModels()
+    private val viewModel: CollectionOverviewViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val application = requireNotNull(activity).application
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_collection_individual, container, false)
+        binding.lifecycleOwner = this
 
         //Todo: find where I'm passing a bundle because I do not need a rootDirectory
         binding.toCollectionOverview.setOnClickListener {
             this.findNavController().navigate(CollectionIndividualFragmentDirections.
             actionCollectionIndividualFragmentToCollectionOverviewFragment())
+            viewModel.displayPlantDetailsComplete()
         }
 
-        binding.lifecycleOwner = this
+        var plantIndividual = CollectionIndividualFragmentArgs.fromBundle(requireArguments()).selectedPlant
 
-        val plantIndividual = CollectionIndividualFragmentArgs.fromBundle(requireArguments()).selectedPlant
-        val viewModelFactory = CollectionIndividualViewModelFactory(plantIndividual, )
-        binding.viewModel = ViewModelProvider(
-            this, viewModelFactory).get(CollectionIndividualViewModel::class.java)
+        binding.testIndividual.text = plantIndividual.plantName
 
         binding.collectionIndividualRecyclerview.adapter = CollectionIndividualAdapter()
-        Log.d("DEBUG1", "Adapter initialized?")
+
+        binding.plantPhoto = viewModel.plantPhotoDisplay.value
+
+        binding.viewModel = viewModel
 
         return binding.root
     }

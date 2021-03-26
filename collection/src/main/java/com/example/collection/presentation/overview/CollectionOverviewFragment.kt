@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,7 +26,7 @@ class CollectionOverviewFragment: Fragment(), PopupFragment.OnInputSelected{
 
     private lateinit var binding: FragmentCollectionOverviewBinding
     private lateinit var dialog: PopupFragment
-    private val viewModel: CollectionOverviewViewModel by viewModels()
+    private val viewModel: CollectionOverviewViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,16 +60,16 @@ class CollectionOverviewFragment: Fragment(), PopupFragment.OnInputSelected{
         Log.d(RTAG, "Adapter initialized?")
 
 
-        viewModel.navigateToSelectedPlant.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedPlant.observe(viewLifecycleOwner, {
             if (null != it) {
 
-//                viewModel.retrievePlantList(it)
-//                viewModel.changeToPlantPhotos(viewModel.mediaPlantList)
-//                Log.d("DEBUG1", "listPlantPhoto in OverviewFragment is empty? " + viewModel.listPlantPhoto.value?.isEmpty())
+                viewModel.retrievePlantList(it)
+                viewModel.changeToPlantPhotos(viewModel.mediaPlantList)
 
-//                this.findNavController().navigate(
-//                    CollectionOverviewFragmentDirections.actionShowDetail(it))
-//                viewModel.displayPlantDetailsComplete()
+                Log.d("DEBUG1", "listPlantPhoto in OverviewFragment is empty? " + viewModel.listPlantPhoto.value?.isEmpty())
+
+                this.findNavController().navigate(
+                    CollectionOverviewFragmentDirections.actionCollectionOverviewFragmentToCollectionIndividualFragment(it))
             }
         })
 

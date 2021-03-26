@@ -38,6 +38,7 @@ fun bindRecyclerView(recyclerView: RecyclerView,
                      data: List<PlantIndividual>?) {
     val adapter = recyclerView.adapter as CollectionOverviewAdapter
     adapter.submitList(data)
+    Log.d("DEBUG1", "overview data not null? " + data?.isEmpty())
     Log.d(RTAG, "executed bindRecyclerView")
 }
 
@@ -81,6 +82,22 @@ fun bindPlantRecyclerView(recyclerView: RecyclerView,
                      data: List<PlantPhoto>?) {
     val adapter = recyclerView.adapter as CollectionIndividualAdapter
     adapter.submitList(data)
+    Log.d("DEBUG1", "is data empty " + data?.isEmpty())
     Log.d("DEBUG1", "is data empty " + data?.isNullOrEmpty())
     Log.d("DEBUG1", "executed bindRecyclerView")
+}
+
+@BindingAdapter("singleImage")
+fun loadImage(imgView: ImageView, imgUrl: File?) {
+
+    imgUrl.let {
+        Glide.with(imgView.context)
+            .load(imgUrl)
+            //Todo: create loading animation and failure to load animation corresponding to UI
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image))
+            .into(imgView)
+    }
 }

@@ -6,7 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.collection.presentation.individual.CollectionIndividualViewModel" />
+            type="com.example.collection.presentation.overview.CollectionOverviewViewModel" />
+        <variable
+            name="plantPhoto"
+            type="com.example.storage.data.PlantPhoto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,8 +31,10 @@
 
         <ImageView
             android:id="@+id/collection_individual_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="false"
+            app:singleImage="@{viewModel.plantPhotoDisplay.plantFilePath}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +56,17 @@
             app:layout_constraintVertical_bias="0.498"
             app:listPhotoData="@{viewModel.listPlantPhoto}"
             tools:listitem="@layout/image_plant_photo_view" />
+
+        <TextView
+            android:id="@+id/test_individual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Name"
+            app:layout_constraintBottom_toTopOf="@+id/collection_individual_recyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/collection_individual_imageview" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

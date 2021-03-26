@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -90,15 +91,16 @@ class CameraFragment () : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
-
+        binding.lifecycleOwner = this
         binding.mainScreen.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.HomeFlow)
         }
 
-        binding.viewModel = viewModel
+
         binding.cameraRecyclerview.adapter = CameraAdapter(CameraAdapter.OnClickListener {
             viewModel.onSelectForPreview(it)
         })
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -119,7 +121,6 @@ class CameraFragment () : Fragment(){
 
         // Setup the listener for take photo button
         camera_capture_button.setOnClickListener {
-
             try {
                 if (viewModel.selectForPreview.value == null) {
                     throw java.lang.NullPointerException()
@@ -139,9 +140,6 @@ class CameraFragment () : Fragment(){
 
         viewModel.selectForPreview.observe(viewLifecycleOwner, {
             if (null != it) {
-                Log.d(TAG, "in selectForPreview Observer")
-                Log.i(TAG, "Visibility of Preview in Observer: ${binding.viewFinder.isVisible}")
-                Log.i(TAG, "Visibility of Preview in Observer: ${binding.viewFinder.isActivated}")
                 mImageToImageWithEdge(it)
             }
         })
@@ -155,9 +153,7 @@ class CameraFragment () : Fragment(){
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             // Preview
-            Log.d(TAG, "before preview1")
             preview = Preview.Builder().build()
-            Log.d(TAG, "after preview1")
 
             imageCapture = ImageCapture.Builder().build()
 
@@ -173,7 +169,6 @@ class CameraFragment () : Fragment(){
                 camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
                 preview?.setSurfaceProvider(viewFinder.createSurfaceProvider())
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
             }
 
         }, ContextCompat.getMainExecutor(safeContext))
@@ -294,7 +289,6 @@ class CameraFragment () : Fragment(){
                 Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
                 return
             } finally {
-                viewModel.selectForPreviewComplete()
             }
 
 

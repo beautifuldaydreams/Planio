@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.io.File
 import java.io.Serializable
-@Parcelize
+
 data class PlantIndividual (
 
     val plantId: Int,
@@ -14,4 +14,4 @@ data class PlantIndividual (
     val plantFilePath: File,
 
     val plantType: String,
-) : Serializable, Parcelable
+) : Serializable

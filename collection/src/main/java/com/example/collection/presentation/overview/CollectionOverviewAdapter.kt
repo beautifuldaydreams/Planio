@@ -16,10 +16,11 @@ import com.example.storage.data.PlantPhoto
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * data, including computing diffs between lists.
  */
-
+val debug1 = "DEBUG1"
 
 class CollectionOverviewAdapter(private val onClickListener: OnClickListener) : ListAdapter<PlantIndividual,
         CollectionOverviewAdapter.PlantIndividualViewHolder>(DiffCallback) {
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,11 +36,11 @@ class CollectionOverviewAdapter(private val onClickListener: OnClickListener) : 
         position: Int
     ) {
         Log.d(RTAG, "in onBindViewHolder")
-        val plantPhoto = getItem(position)
+        val plantIndividual = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(plantPhoto)
+            onClickListener.onClick(plantIndividual)
         }
-        holder.bind(plantPhoto)
+        holder.bind(plantIndividual)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<PlantIndividual>() {
@@ -56,7 +57,7 @@ class CollectionOverviewAdapter(private val onClickListener: OnClickListener) : 
                                  ImageItemViewBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(plantPhoto: PlantIndividual) {
-            Log.d(RTAG, "in bind function in PlantPhotoViewHolder")
+            Log.d(debug1, "plantindividual photo: ${plantPhoto.plantFilePath}")
             binding.plantIndividual = plantPhoto
             binding.executePendingBindings()
         }

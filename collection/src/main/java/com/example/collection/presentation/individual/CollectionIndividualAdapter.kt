@@ -24,7 +24,6 @@ class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
         parent: ViewGroup,
         viewType: Int
     ): PlantPhotoViewHolder {
-        Log.d(debug1, "in onCreateViewHolder")
         return PlantPhotoViewHolder(
             ImagePlantPhotoViewBinding.inflate(
             LayoutInflater.from(parent.context)))
@@ -34,7 +33,6 @@ class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
         holder: PlantPhotoViewHolder,
         position: Int
     ) {
-        Log.d(debug1, "in iNDIVIDUAL onBindViewHolder")
         val plantPhoto = getItem(position)
         holder.bind(plantPhoto)
     }
@@ -54,7 +52,7 @@ class CollectionIndividualAdapter : ListAdapter<PlantPhoto,
     ):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(plantPhoto: PlantPhoto) {
-            Log.d("DEBUG1", "in INDIVIDUAL bind function in PlantPhotoViewHolder")
+            Log.d("DEBUG1", "path ${plantPhoto.plantFilePath}")
             binding.plantPhoto = plantPhoto
             binding.executePendingBindings()
         }
