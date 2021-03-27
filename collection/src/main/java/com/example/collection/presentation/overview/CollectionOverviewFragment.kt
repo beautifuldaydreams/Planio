@@ -73,6 +73,10 @@ class CollectionOverviewFragment: Fragment(), PopupFragment.OnInputSelected{
             }
         })
 
+//        viewModel.newListLiveData.observe(viewLifecycleOwner, {
+//            binding.overviewRecyclerView.adapter.submitList2(it)
+//        })
+
         binding.addPlant.setOnClickListener {
             dialog = PopupFragment()
             dialog.setTargetFragment(this, 1)

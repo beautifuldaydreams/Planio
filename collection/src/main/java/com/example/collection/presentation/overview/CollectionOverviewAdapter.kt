@@ -66,4 +66,10 @@ class CollectionOverviewAdapter(private val onClickListener: OnClickListener) : 
     class OnClickListener(val clickListener: (plantIndividual:PlantIndividual) -> Unit) {
         fun onClick(plantIndividual: PlantIndividual) = clickListener(plantIndividual)
     }
+
+//    fun submitList2(newData: MutableList<PlantIndividual>) {
+//        myData.clear()
+//        myData.addAll(newData)
+//        notifyDataSetChanged()
+//    }
 }

@@ -8,4 +8,12 @@
     <string name="new_plant">new plant</string>
     <string name="name">name</string>
     <string name="plntIndiSPNum">plntIndiSPNum</string>
+
+    <string name="delete">delete</string>
+    <string-array name="delete_array">
+        <item>delete</item>
+        <item>plant</item>
+        <item>photo</item>
+    </string-array>
+
 </resources>

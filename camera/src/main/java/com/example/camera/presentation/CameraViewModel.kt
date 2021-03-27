@@ -1,7 +1,6 @@
 package com.example.camera.presentation
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,10 +11,6 @@ import com.example.storage.SharedPreferences.Companion.getNewSpIdNumber
 import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 import kotlinx.coroutines.launch
-import org.opencv.android.Utils
-import org.opencv.core.CvType
-import org.opencv.core.Mat
-import org.opencv.imgproc.Imgproc
 import java.io.*
 
 

@@ -63,7 +63,7 @@ fun findLastPlantImage(imgUrl: File): File? {
 }
 
 @BindingAdapter("imagePhotoFilePath")
-fun bindImagePhoto(imgView: ImageView, imgUrl: File) {
+fun bindImagePhoto(imgView: ImageView, imgUrl: File?) {
     Log.d("DEBUG1", "in bindPhotoImage in BindingAdapters")
     imgUrl.let {
         Glide.with(imgView.context)

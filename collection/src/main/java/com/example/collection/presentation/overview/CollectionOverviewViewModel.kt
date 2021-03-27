@@ -1,30 +1,24 @@
 package com.example.collection.presentation.overview
 
 import android.app.Application
-import android.app.Dialog
-import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
-import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.collection.R
-import com.example.collection.presentation.individual.CollectionIndividualFragment
-import com.example.collection.presentation.individual.CollectionIndividualFragmentArgs
 import com.example.storage.SharedPreferences.Companion.editSpIdNumber
 import com.example.storage.SharedPreferences.Companion.getNewSpIdNumber
 import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
-import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 import java.io.*
 
 class CollectionOverviewViewModel(application: Application) : AndroidViewModel(application) {
 
     private val TAG = "CollectionOverviewViewModel"
-    private val debug1 = "DEBUG1"
+    private val debug3 = "DEBUG3"
 
     lateinit var mediaLists: MutableList<File>
     lateinit var mediaPlantList: MutableList<File>
@@ -49,6 +43,8 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
     val plantPhotoDisplay: LiveData<PlantPhoto>
         get() = _plantPhotoDisplay
 
+    var placeHolderPlantPhoto: PlantPhoto = PlantPhoto(0, null, 0)
+
     //Todo: all viewModelScopes in here are redundant since they run on the main thread anyways.
     //Todo: analyse if functions can be placed on IO thread to improve performance
 
@@ -57,6 +53,50 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         changeToPlantIndividuals(mediaLists)
         Log.i("OnCreate", "mediaList retrieved")
         Log.i("OnCreate", "function changeToPlantPhoto(mediaLists) executed")
+    }
+
+    fun deleteSelectedPlantIndividual(plantIndividual: PlantIndividual) {
+
+        val dir = plantIndividual.plantId
+        Log.i(debug3, dir.toString())
+        val plantList = context?.getExternalFilesDir("planio/dataclasses/$dir")
+            ?.listFiles()?.toMutableList() ?: mutableListOf()
+
+        for (item in plantList) {
+            Log.i(debug3, "plantList.absolutePath: " + item.absolutePath)
+        }
+
+        for (item in plantList) {
+            val file = FileInputStream(item)
+            val inStream = ObjectInputStream(file)
+            val item2 = inStream.readObject() as PlantPhoto
+            Log.i(debug3, item2.plantFilePath.toString())
+            item2.plantFilePath?.delete()
+            item.delete()
+        }
+
+        for (item in plantList) {
+            Log.i(debug3, "AFTER DEL plantList.absolutePath: " + item.absolutePath)
+        }
+
+        plantIndividual.plantFilePath.delete()
+        val plantIndiDel = context?.getExternalFilesDir("planio/plants/$dir")
+        plantIndiDel?.delete()
+
+        retrieveFileList()
+        for (item in mediaLists) {
+            Log.i(debug3, "BigMediaList.absolutePath: " + item.absolutePath)
+        }
+        changeToPlantIndividuals(mediaLists)
+    }
+
+    fun deleteSelectedPlantPhoto(imgUrl: PlantPhoto) {
+        val photoId = imgUrl.plantId
+        val photoId2 = imgUrl.photoId
+        val location = context?.getExternalFilesDir("planio/dataclasses/$photoId")
+        val slocation = File(location, "$photoId2")
+        imgUrl.plantFilePath?.delete()
+        slocation.delete()
     }
 
     fun displayPlantDetails(plantIndividual: PlantIndividual) {
@@ -71,7 +111,7 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         _plantPhotoDisplay.value = plantPhoto
     }
 
-    fun retrieveFileList() {
+    private fun retrieveFileList() {
         viewModelScope.launch {
             try {
                 mediaLists = context?.getExternalFilesDir("planio/plants")
@@ -115,14 +155,18 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
             for (item in newPhotoList) {
                 Log.i(debug1, "PlantPhotoListPath: " + item.plantFilePath.toString())
             }
-            _plantPhotoDisplay.value = newPhotoList.last()
+            if (newPhotoList.isNotEmpty()) {
+                newPhotoList.last()
+            } else {
+                newPhotoList.add(placeHolderPlantPhoto)
+            }
             Log.i(debug1, "PlantPhotoDisplay is empty? ${plantPhotoDisplay.value?.plantFilePath}")
             _listPlantPhoto.value = newPhotoList
             Log.i(debug1, "listPlantPhoto is empty? ${listPlantPhoto.value?.isEmpty()}")
     }
 
     fun changeToPlantIndividuals(plantList: MutableList<File>) {
-
+        newList.clear()
         for (item in plantList) {
             Log.i(TAG, "change to PlantIndividuals.absolutePath: " + item.absolutePath)
         }
@@ -195,5 +239,8 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         Log.i(TAG, "plntIndiSPNum: $plntIndiSPNum")
         Log.i(TAG, "plantPhotoSPKey: $plantPhotoSPKey")
         Log.i(TAG, "plantPhotoSPValue: $plantPhotoSPValue")
+
+        retrieveFileList()
+        changeToPlantIndividuals(mediaLists)
     }
 }
