@@ -1,7 +1,5 @@
 package com.example.camera.presentation
 
-//import com.example.camera.di.DaggerCameraComponent
-
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
@@ -21,10 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.camera.BitmapHelper
 import com.example.camera.R
 import com.example.camera.databinding.FragmentCameraBinding
@@ -50,9 +45,9 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraFragment () : Fragment(){
+class CameraFragment : Fragment(){
 
-    val TAG = "CameraFragment"
+    val TAG = "LISASBUG"
 
     private lateinit var binding: FragmentCameraBinding
 
@@ -60,7 +55,6 @@ class CameraFragment () : Fragment(){
 
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
-    private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
 
     private lateinit var safeContext: Context
@@ -72,17 +66,6 @@ class CameraFragment () : Fragment(){
     override fun onAttach(context: Context) {
         super.onAttach(context)
         safeContext = context
-    }
-
-    private fun getStatusBarHeight(): Int {
-        val resourceId = safeContext.resources.getIdentifier(
-            "status_bar_height",
-            "dimen",
-            "android"
-        )
-        return if (resourceId > 0) {
-            safeContext.resources.getDimensionPixelSize(resourceId)
-        } else 0
     }
 
     override fun onCreateView(
@@ -139,8 +122,17 @@ class CameraFragment () : Fragment(){
 //        cameraExecutor = Executors.newCachedThreadPool()
 
         viewModel.selectForPreview.observe(viewLifecycleOwner, {
-            if (null != it) {
+            val id :Int? = it?.plantId
+            val toBeEdgeDetected = context?.getExternalFilesDir("planio/dataclasses")
+            val specificFile : MutableList<File?>? = (File(toBeEdgeDetected, "$id")
+                .listFiles()?.toMutableList() ?: mutableListOf())
+            binding.edgeDetectionView.translationZ = 0F
+
+            if (null != it && !specificFile?.isEmpty()!!) {
+                binding.edgeDetectionView.translationZ = 5.0F
+                binding.viewFinder.invalidate()
                 mImageToImageWithEdge(it)
+                binding.viewFinder.invalidate()
             }
         })
     }
@@ -148,7 +140,7 @@ class CameraFragment () : Fragment(){
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
 
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
@@ -246,7 +238,7 @@ class CameraFragment () : Fragment(){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    fun getOutputDirectory(): File {
+    private fun getOutputDirectory(): File {
 
         val mediaDir = activity?.getExternalFilesDirs(null)?.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
@@ -256,33 +248,22 @@ class CameraFragment () : Fragment(){
 
 
     companion object {
-        val TAG = "CameraXFragment"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         internal const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         var isOffline = false // prevent app crash when goes offline
     }
 
-    fun deselectRemainingList(position: Int, recyclerView: RecyclerView) {
-        val itemCount = recyclerView.adapter?.itemCount
-        for (i in 0 until itemCount!!) {
-            if (i != position){
-                val holder = recyclerView.findViewHolderForAdapterPosition(i)
-//                !holder?.itemView?.plantSelectedView?.isVisible!!
-            }
-        }
-    }
-
-    fun mImageToImageWithEdge(plantIndividual: PlantIndividual) {
+    private fun mImageToImageWithEdge(plantIndividual: PlantIndividual) {
         Log.d(TAG, "in mImageToImageWithEdge()")
         val toBeEdgeDetected: File?
 
-        val Id = plantIndividual.plantId
+        val id = plantIndividual.plantId
         val specificFile: File?
 
         try {
                 toBeEdgeDetected = context?.getExternalFilesDir("planio/dataclasses")
-                specificFile = (File(toBeEdgeDetected, "$Id")
+                specificFile = (File(toBeEdgeDetected, "$id")
                     .listFiles()?.toMutableList() ?: mutableListOf()).last()
             }catch (e: Exception) {
                 //todo: create a "Directory not found" message in the UI to notify user
@@ -293,7 +274,7 @@ class CameraFragment () : Fragment(){
 
 
         if (toBeEdgeDetected != null) {
-            Log.d(TAG, "${toBeEdgeDetected!!.absoluteFile}?}")
+            Log.d(TAG, "${toBeEdgeDetected.absoluteFile}?}")
         }
         if (toBeEdgeDetected != null) {
             Log.d(TAG, toBeEdgeDetected.absolutePath)
@@ -311,9 +292,7 @@ class CameraFragment () : Fragment(){
     //Todo: refactor to viewModel
     private fun detectEdges(image: Bitmap) {
 
-        Log.i(TAG, "Visibility of Preview: ${binding.viewFinder.isVisible}")
-
-        val src = Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC4)
+        val src = Mat(image.height, image.width, CvType.CV_8UC4)
         Utils.bitmapToMat(image, src)
         val edges = Mat(src.size(), CvType.CV_8UC1)
 
@@ -324,7 +303,7 @@ class CameraFragment () : Fragment(){
         val src2 = edges.clone()
         val alpha = Mat(image.height, image.width, CvType.CV_8UC1)
 
-        Imgproc.threshold(edges, alpha, 155.0, 0.0, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(edges, alpha, 155.0, 0.0, Imgproc.THRESH_BINARY_INV)
 
         val dst = Mat(image.height, image.width, CvType.CV_8UC4)
 
@@ -341,7 +320,7 @@ class CameraFragment () : Fragment(){
 
 
         val output =
-            Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888)
+            Bitmap.createBitmap(image.width, image.height, Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(dst, output)
 
         Log.i(TAG, "Visibility of Preview: ${binding.viewFinder.isVisible}")

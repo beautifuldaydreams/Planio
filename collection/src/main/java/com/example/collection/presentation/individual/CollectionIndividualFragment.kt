@@ -1,6 +1,8 @@
 package com.example.collection.presentation.individual
 
-import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.collection.R
 import androidx.databinding.DataBindingUtil
@@ -32,6 +33,7 @@ class CollectionIndividualFragment: Fragment() {
     val debug3 = "DEBUG3"
 
     private val viewModel: CollectionOverviewViewModel by activityViewModels()
+    var imgUrl : File? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +79,7 @@ class CollectionIndividualFragment: Fragment() {
                     binding.collectionIndividualRecyclerview.layoutManager as LinearLayoutManager
                 val scrollPosition = myLayoutManager.findFirstVisibleItemPosition()
                 imgPhoto = viewModel.newPhotoList[scrollPosition]
-                val imgUrl = viewModel.newPhotoList[scrollPosition].plantFilePath
+                imgUrl = viewModel.newPhotoList[scrollPosition].plantFilePath
                 imgUrl.let {
                     Glide.with(binding.collectionIndividualImageview)
                         .load(imgUrl)
@@ -90,6 +92,11 @@ class CollectionIndividualFragment: Fragment() {
                 }
             }
         })
+
+        binding.saveImage.setOnClickListener {
+            val bit = BitmapFactory.decodeFile(viewModel.plantPhotoDisplay.value?.plantFilePath.toString())
+            viewModel.saveMediaToStorage(bit)
+        }
 
         val deleteList = resources.getStringArray(R.array.delete_array)
         val adapter = ArrayAdapter(
@@ -124,4 +131,5 @@ class CollectionIndividualFragment: Fragment() {
         binding.viewModel = viewModel
         return binding.root
     }
+
 }

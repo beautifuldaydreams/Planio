@@ -78,6 +78,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/to_collection_overview" />
 
+        <ImageButton
+            android:id="@+id/saveImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/collection_individual_imageview"
+            app:layout_constraintEnd_toStartOf="@+id/spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/to_collection_overview"
+            app:srcCompat="@android:drawable/ic_menu_save" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
