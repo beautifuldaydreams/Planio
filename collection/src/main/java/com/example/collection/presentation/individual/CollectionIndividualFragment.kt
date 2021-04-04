@@ -94,7 +94,7 @@ class CollectionIndividualFragment: Fragment() {
         })
 
         binding.saveImage.setOnClickListener {
-            val bit = BitmapFactory.decodeFile(viewModel.plantPhotoDisplay.value?.plantFilePath.toString())
+            val bit :Bitmap? = BitmapFactory.decodeFile(viewModel.plantPhotoDisplay.value?.plantFilePath.toString())
             viewModel.saveMediaToStorage(bit)
         }
 

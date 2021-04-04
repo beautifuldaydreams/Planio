@@ -251,8 +251,11 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         changeToPlantIndividuals(mediaLists)
     }
 
-    fun saveMediaToStorage(bit: Bitmap) {
+    fun saveMediaToStorage(bit: Bitmap?) {
 
+        if (bit == null) {
+            return
+        }
         val matrix = Matrix()
         matrix.postRotate(90F)
         val bitmap = Bitmap.createBitmap(bit, 0, 0, bit.width, bit.height, matrix, true)

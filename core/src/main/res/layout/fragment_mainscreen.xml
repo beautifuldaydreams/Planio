@@ -8,16 +8,20 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
-                <Button
+                <ImageButton
                     android:id="@+id/to_camera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_camera"
+                    android:text="@string/camera"
+                    android:background="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintHorizontal_bias="0.638"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/to_collections"
-                    android:text="@string/camera" />
+                    app:layout_constraintVertical_bias="0.66" />
 
                 <Button
                     android:id="@+id/to_collections"
@@ -28,6 +32,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="@string/collections" />
+
+                <ImageView
+                    android:id="@+id/home_screen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2200dp"
+                    android:src="@drawable/ic_home_screen_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:backgroundTint="@color/white"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

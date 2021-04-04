@@ -1,7 +1,9 @@
 package com.example.core.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -15,6 +17,7 @@ class MainScreenFragment : Fragment(){
 
     private lateinit var binding: FragmentMainscreenBinding
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +31,7 @@ class MainScreenFragment : Fragment(){
         binding.toCollections.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.CollectionFlow)
         }
+
         return binding.root
     }
 
