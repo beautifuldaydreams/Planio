@@ -12,26 +12,32 @@
                     android:id="@+id/to_camera"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
+                    android:background="@color/white"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_camera"
                     android:text="@string/camera"
-                    android:background="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.638"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/to_collections"
-                    app:layout_constraintVertical_bias="0.66" />
+                    app:layout_constraintVertical_bias="0.060000002" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/to_collections"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="170dp"
+                    android:background="@color/white"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_collections"
+                    android:text="@string/collections"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/collections" />
+                    app:layout_constraintVertical_bias="0.61" />
 
                 <ImageView
                     android:id="@+id/home_screen"
@@ -44,6 +50,30 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:backgroundTint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="@string/camera"
+                    app:layout_constraintBottom_toBottomOf="@+id/to_camera"
+                    app:layout_constraintEnd_toEndOf="@+id/to_camera"
+                    app:layout_constraintStart_toStartOf="@+id/to_camera"
+                    app:layout_constraintTop_toTopOf="@+id/to_camera"
+                    app:layout_constraintVertical_bias="0.38" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:text="@string/collections"
+                    app:layout_constraintBottom_toBottomOf="@+id/to_collections"
+                    app:layout_constraintEnd_toEndOf="@+id/to_collections"
+                    app:layout_constraintStart_toStartOf="@+id/to_collections"
+                    app:layout_constraintTop_toTopOf="@+id/to_collections"
+                    app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

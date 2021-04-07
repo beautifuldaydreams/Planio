@@ -12,53 +12,70 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
-
-        <Button
-            android:id="@+id/to_collection_individual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/collection_individual"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:animateLayoutChanges="true"
+        android:background="@drawable/ic_collection_overview">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/overview_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="291dp"
+            android:layout_height="340dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/to_main_screen"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/to_collection_individual"
+            app:layout_constraintTop_toTopOf="parent"
             app:listData="@{viewModel.newListLiveData}"
             app:spanCount="2"
             tools:itemCount="16"
             tools:listitem="@layout/image_item_view" />
 
-        <Button
+        <ImageButton
             android:id="@+id/to_main_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/background"
+            android:src="@drawable/ic_button_outline"
             android:text="@string/home"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/overview_recycler_view"
+            app:layout_constraintVertical_bias="0.65999997" />
 
         <ImageButton
             android:id="@+id/add_plant"
-            android:layout_width="76dp"
-            android:layout_height="63dp"
+            android:layout_width="62dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/background"
             android:contentDescription="@string/add_plant"
-            app:layout_constraintBottom_toTopOf="@+id/to_main_screen"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_plus_button"
+            app:layout_constraintBottom_toTopOf="@+id/overview_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.91"
-            app:layout_constraintStart_toStartOf="@+id/overview_recycler_view"
-            app:layout_constraintTop_toBottomOf="@+id/to_collection_individual"
-            app:layout_constraintVertical_bias="0.07999998"
-            android:src="@android:drawable/btn_star_big_on" />
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.64" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="95dp"
+            android:layout_height="30dp"
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:gravity="center"
+            android:text="@string/home"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/to_main_screen"
+            app:layout_constraintEnd_toEndOf="@+id/to_main_screen"
+            app:layout_constraintStart_toStartOf="@+id/to_main_screen"
+            app:layout_constraintTop_toTopOf="@+id/to_main_screen"
+            app:layout_constraintVertical_bias="0.51" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

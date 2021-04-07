@@ -15,25 +15,66 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:contentDescription="TODO"
-            app:imageFilePath="@{plantIndividual.plantFilePath}"
+            android:id="@+id/imageView3"
+            android:layout_width="156dp"
+            android:layout_height="200dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_image_outline"
+            android:translationZ="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintVertical_bias="0.110000014" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView3">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="149dp"
+                android:layout_height="194dp"
+                android:contentDescription="@string/todo"
+                app:imageFilePath="@{plantIndividual.plantFilePath}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.26"
+                tools:srcCompat="@drawable/ic_placeholder" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/textWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_text_wrapper"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="84dp"
             android:layout_height="22dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:gravity="center"
             android:text="@{plantIndividual.plantName}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toTopOf="@id/textWrapper"
+            app:layout_constraintVertical_bias="0.51"
+            tools:text="@string/todo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

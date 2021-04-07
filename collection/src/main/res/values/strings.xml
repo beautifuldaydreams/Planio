@@ -10,6 +10,7 @@
     <string name="plntIndiSPNum">plntIndiSPNum</string>
 
     <string name="delete">delete</string>
+    <string name="todo">TODO</string>
     <string-array name="delete_array">
         <item>delete</item>
         <item>plant</item>
