@@ -17,14 +17,14 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/overview_recycler_view"
-            android:layout_width="291dp"
-            android:layout_height="340dp"
+            android:layout_width="301dp"
+            android:layout_height="399dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.581"
             app:listData="@{viewModel.newListLiveData}"
             app:spanCount="2"
             tools:itemCount="16"
@@ -44,7 +44,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/overview_recycler_view"
-            app:layout_constraintVertical_bias="0.65999997" />
+            app:layout_constraintVertical_bias="0.8" />
 
         <ImageButton
             android:id="@+id/add_plant"
@@ -58,10 +58,10 @@
             android:src="@drawable/ic_plus_button"
             app:layout_constraintBottom_toTopOf="@+id/overview_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintHorizontal_bias="0.951"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.64" />
+            app:layout_constraintVertical_bias="0.18" />
 
         <TextView
             android:id="@+id/textView3"

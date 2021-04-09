@@ -11,10 +11,13 @@
 
     <string name="delete">delete</string>
     <string name="todo">TODO</string>
+    <string name="names">Name</string>
+    <string name="collections">COLLECTIONS</string>
     <string-array name="delete_array">
-        <item>delete</item>
+        <item />
         <item>plant</item>
         <item>photo</item>
+        <item />
     </string-array>
 
 </resources>

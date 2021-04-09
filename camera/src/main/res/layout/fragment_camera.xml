@@ -12,20 +12,70 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true">
 
-                <Button
-                    android:id="@+id/camera_capture_button"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:elevation="2dp"
-                    android:scaleType="fitCenter"
-                    android:text="@string/take_photo"
-                    android:translationZ="6dp"
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/background"
+                    android:padding="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_camera_fragment_outline"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.13999999">
+
+                        <ImageView
+                            android:layout_width="300dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="start"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_horizontal_recyclerview_outline"
+                            android:translationZ="5dp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/camera_recyclerview"
+                            android:layout_width="300dp"
+                            android:layout_height="70dp"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.576"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/cardView"
+                            app:layout_constraintVertical_bias="0.25"
+                            app:listData="@{viewModel.newListIndividualLiveData}"
+                            tools:listitem="@layout/plant_item_view" />
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageButton
+                    android:id="@+id/camera_capture_button"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@color/white"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_camera_capture_button"
+                    android:text="@string/take_photo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.050000012" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    app:layout_constraintVertical_bias="0.36" />
 
                 <ImageView
                     android:id="@+id/edge_detection_view"
@@ -35,51 +85,76 @@
                     android:alpha="0.4"
                     android:rotation="90"
                     android:scaleType="center"
-
-                    app:layout_constraintBottom_toBottomOf="@+id/viewFinder"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/viewFinder"
+                    app:layout_constraintTop_toTopOf="@+id/cardView"
                     tools:srcCompat="@tools:sample/avatars" />
 
-                <androidx.camera.view.PreviewView
-                    android:id="@+id/viewFinder"
-                    android:layout_width="400dp"
-                    android:layout_height="500dp"
-                    android:stateListAnimator="@null"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="345dp"
+                    android:layout_height="440dp"
+                    android:src="@drawable/ic_image_outline"
+                    android:translationZ="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView"
+                    app:layout_constraintStart_toStartOf="@+id/cardView"
+                    app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="345dp"
+                    android:layout_height="440dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.45"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.32999998">
+                    app:layout_constraintVertical_bias="0.31">
 
-                </androidx.camera.view.PreviewView>
+                        <androidx.camera.view.PreviewView
+                            android:id="@+id/viewFinder"
+                            android:layout_width="345dp"
+                            android:layout_height="440dp"
+                            android:stateListAnimator="@null"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.185">
 
-                <Button
+                        </androidx.camera.view.PreviewView>
+                </androidx.cardview.widget.CardView>
+
+
+                <ImageButton
                     android:id="@+id/main_screen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_home_button"
                     android:text="@string/main_screen"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/camera_capture_button"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.95"
+                    app:layout_constraintHorizontal_bias="0.85"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.032" />
+                    app:layout_constraintTop_toTopOf="@+id/camera_capture_button" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/camera_recyclerview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:listData="@{viewModel.newListIndividualLiveData}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewFinder"
-                tools:listitem="@layout/plant_item_view" />
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/camera_recyclerview"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                app:listData="@{viewModel.newListIndividualLiveData}"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/viewFinder"-->
+<!--                tools:listitem="@layout/plant_item_view" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

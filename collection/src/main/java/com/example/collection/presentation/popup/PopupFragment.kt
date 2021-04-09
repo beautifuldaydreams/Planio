@@ -18,6 +18,8 @@ class PopupFragment: DialogFragment() {
 
     val TAG = "PopupFagmentError"
 
+    override fun getTheme() = R.style.DialogCustomTheme
+
     interface OnInputSelected{
         fun sendInput(input: String)
     }

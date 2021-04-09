@@ -15,10 +15,13 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="91dp"
-            android:layout_height="80dp"
+            android:layout_width="46dp"
+            android:layout_height="48dp"
+            android:padding="3dp"
+            android:scaleType="fitCenter"
             app:imageFilePath="@{plantIndividual.plantFilePath}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
@@ -26,9 +29,11 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="84dp"
+            android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_marginTop="1dp"
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:gravity="center"
             android:text="@{plantIndividual.plantName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
