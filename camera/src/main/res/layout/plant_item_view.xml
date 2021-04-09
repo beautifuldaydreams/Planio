@@ -17,7 +17,7 @@
             android:id="@+id/imageView"
             android:layout_width="46dp"
             android:layout_height="48dp"
-            android:padding="3dp"
+            android:paddingTop="5dp"
             android:scaleType="fitCenter"
             app:imageFilePath="@{plantIndividual.plantFilePath}"
             app:layout_constraintBottom_toBottomOf="parent"
