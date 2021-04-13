@@ -1,6 +1,7 @@
 package com.example.camera.presentation
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -32,6 +33,10 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
     val selectForPreview: LiveData<PlantIndividual>
         get() = _selectForPreview
 
+    private val _edgeDetectionImage = MutableLiveData<Bitmap>()
+    val edgeDetectionImage: LiveData<Bitmap>
+        get() = _edgeDetectionImage
+
     init {
         //Todo: change this to plant specific SPIdNumber
         if (!this::spIdNumber.isInitialized) {
@@ -42,6 +47,14 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         Log.i("OnCreate", "PlantIndividualFileList retrieved")
         changeToPlantIndividuals(individualFileList)
         Log.i("OnCreate", "function changeToPlantIndividual(individualFileLists) executed")
+    }
+
+    fun onEdgeDetection(bitmap: Bitmap){
+        _edgeDetectionImage.value = bitmap
+    }
+
+    fun onEdgeDetectionNull(){
+        _edgeDetectionImage.value = null
     }
 
     fun retrievePlantIndividualFileList() {
@@ -142,7 +155,6 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
     }
 
     fun onSelectForPreview(plantIndividual: PlantIndividual){
-
         _selectForPreview.value = plantIndividual
         Log.i(SaveTag, "select for preview value: ${selectForPreview.value}")
         Log.i(SaveTag, "select for preview value: ${selectForPreview.value?.plantId}")

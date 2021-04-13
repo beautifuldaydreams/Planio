@@ -24,11 +24,10 @@ fun bindImage(imgView: ImageView, imgUrl: File) {
     imgUrl.let {
         Glide.with(imgView.context)
             .load(findLastPlantImage(imgUrl))
-                //Todo: create loading animation and failure to load animation corresponding to UI
             .apply(
                 RequestOptions()
                 .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken_image))
+                .error(R.drawable.ic_launcher_foreground))
             .into(imgView)
     }
     Log.d(RTAG, "executed bindImage")
@@ -47,10 +46,6 @@ fun findLastPlantImage(imgUrl: File): File? {
 
     var item: PlantPhoto? = null
 
-    Log.i(RTAG, "in findLastPlantImage")
-    //Todo: get photo if not found load empty photo
-    //Todo: query list by descending to find latest photo
-
     try{
         val lastPhoto = File(imgUrl.toString()).listFiles()?.last()
         val file = FileInputStream(lastPhoto)
@@ -68,11 +63,10 @@ fun bindImagePhoto(imgView: ImageView, imgUrl: File?) {
     imgUrl.let {
         Glide.with(imgView.context)
             .load(imgUrl)
-            //Todo: create loading animation and failure to load animation corresponding to UI
             .apply(
                 RequestOptions()
                     .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image))
+                    .error(R.drawable.ic_launcher_foreground))
             .into(imgView)
     }
     Log.d(RTAG, "executed bindImagePhoto")
@@ -90,15 +84,13 @@ fun bindPlantRecyclerView(recyclerView: RecyclerView,
 
 @BindingAdapter("singleImage")
 fun loadImage(imgView: ImageView, imgUrl: File?) {
-
     imgUrl.let {
         Glide.with(imgView.context)
             .load(imgUrl)
-            //Todo: create loading animation and failure to load animation corresponding to UI
             .apply(
                 RequestOptions()
                     .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image))
+                    .error(R.drawable.ic_launcher_foreground))
             .into(imgView)
     }
 }

@@ -33,6 +33,7 @@ class PopupFragment: DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i(TAG, "oncreatE")
     }
 
 
@@ -41,6 +42,7 @@ class PopupFragment: DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.i(TAG, "oncreateview")
         val view = inflater.inflate(R.layout.new_plant_popup, container, false)
         closeButton = view.findViewById(R.id.closed_button)
         createButton = view.findViewById(R.id.create_button)
@@ -63,6 +65,7 @@ class PopupFragment: DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Log.i(TAG, "onATTACH")
         try {
             mOnInputSelected = targetFragment as OnInputSelected?
         } catch (e: ClassCastException) {

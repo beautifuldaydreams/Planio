@@ -27,7 +27,7 @@ fun bindImage(imgView: ImageView, imgUrl: File) {
             .apply(
                 RequestOptions()
                 .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken_image))
+                .error(R.drawable.ic_launcher_foreground))
             .into(imgView)
     }
     Log.d(RTAG, "executed bindImage")

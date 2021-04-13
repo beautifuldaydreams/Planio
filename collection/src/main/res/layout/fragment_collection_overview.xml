@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.581"
+            app:layout_constraintVertical_bias="0.52"
             app:listData="@{viewModel.newListLiveData}"
             app:spanCount="2"
             tools:itemCount="16"
@@ -34,8 +34,6 @@
             android:id="@+id/to_main_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:background="@color/background"
             android:src="@drawable/ic_button_outline"
             android:text="@string/home"
@@ -43,8 +41,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/overview_recycler_view"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.96" />
 
         <ImageButton
             android:id="@+id/add_plant"
@@ -74,8 +72,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/to_main_screen"
             app:layout_constraintEnd_toEndOf="@+id/to_main_screen"
             app:layout_constraintStart_toStartOf="@+id/to_main_screen"
-            app:layout_constraintTop_toTopOf="@+id/to_main_screen"
-            app:layout_constraintVertical_bias="0.51" />
+            app:layout_constraintTop_toTopOf="@+id/to_main_screen" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

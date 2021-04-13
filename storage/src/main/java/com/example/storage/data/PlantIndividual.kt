@@ -6,7 +6,6 @@ import java.io.File
 import java.io.Serializable
 
 data class PlantIndividual (
-
     val plantId: Int,
 
     val plantName: String = "",

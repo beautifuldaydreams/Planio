@@ -3,7 +3,6 @@
     package="com.example.collection">
 
     <application>
-        <activity android:name=".presentation.CollectionActivity" />
-    </application>
 
+    </application>
 </manifest>

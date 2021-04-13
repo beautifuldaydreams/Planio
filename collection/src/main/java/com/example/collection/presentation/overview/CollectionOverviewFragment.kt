@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.collection.R
 import com.example.collection.RTAG
@@ -44,6 +42,7 @@ class CollectionOverviewFragment: Fragment(), PopupFragment.OnInputSelected{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_collection_overview,
@@ -91,6 +90,7 @@ class CollectionOverviewFragment: Fragment(), PopupFragment.OnInputSelected{
     }
 
     override fun sendInput(input: String) {
-            viewModel.makeNewPlant(input)
+        viewModel.makeNewPlant(input)
+        binding.overviewRecyclerView.adapter?.notifyDataSetChanged()
     }
 }

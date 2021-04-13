@@ -13,6 +13,7 @@
     <string name="todo">TODO</string>
     <string name="names">Name</string>
     <string name="collections">COLLECTIONS</string>
+    <string name="edit_name">Edit Name:</string>
     <string-array name="delete_array">
         <item />
         <item>plant</item>

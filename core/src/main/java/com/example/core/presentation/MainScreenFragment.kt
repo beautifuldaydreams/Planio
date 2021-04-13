@@ -1,17 +1,16 @@
 package com.example.core.presentation
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.core.R
 import com.example.core.databinding.FragmentMainscreenBinding
 import com.example.navigation.NavigationFlow
 import com.example.navigation.ToFlowNavigatable
+import androidx.appcompat.app.ActionBar
 
 class MainScreenFragment : Fragment(){
 
@@ -23,7 +22,9 @@ class MainScreenFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.actionBar?.hide()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mainscreen, container, false)
+//        activity?.actionBar?.hide()
 
         binding.toCamera.setOnClickListener {
             (requireActivity() as ToFlowNavigatable).navigateToFlow(NavigationFlow.CameraFlow)
@@ -34,5 +35,4 @@ class MainScreenFragment : Fragment(){
 
         return binding.root
     }
-
 }

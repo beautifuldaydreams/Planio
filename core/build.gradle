@@ -40,6 +40,11 @@ dependencies {
     implementation project(":uiComponent")
     implementation project(':navigation')
 
+    def activity_version = "1.2.2"
+
+    // Kotlin
+    implementation "androidx.activity:activity-ktx:$activity_version"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'

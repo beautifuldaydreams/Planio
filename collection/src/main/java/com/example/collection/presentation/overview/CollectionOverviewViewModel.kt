@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -24,7 +25,6 @@ import java.io.*
 
 class CollectionOverviewViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val TAG = "CollectionOverviewViewModel"
     private val debug3 = "DEBUG3"
 
     lateinit var mediaLists: MutableList<File>
@@ -43,7 +43,7 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         get() = _newListLiveData
 
     private val _listPlantPhoto = MutableLiveData<MutableList<PlantPhoto>>()
-    val listPlantPhoto: LiveData<MutableList<PlantPhoto>>
+    val listPlantPhoto: MutableLiveData<MutableList<PlantPhoto>>
         get() = _listPlantPhoto
 
     private val _plantPhotoDisplay = MutableLiveData<PlantPhoto>()
@@ -51,9 +51,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         get() = _plantPhotoDisplay
 
     var placeHolderPlantPhoto: PlantPhoto = PlantPhoto(0, null, 0)
-
-    //Todo: all viewModelScopes in here are redundant since they run on the main thread anyways.
-    //Todo: analyse if functions can be placed on IO thread to improve performance
 
     init {
         retrieveFileList()
@@ -104,6 +101,10 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val slocation = File(location, "$photoId2")
         imgUrl.plantFilePath?.delete()
         slocation.delete()
+
+        val plantList = context?.getExternalFilesDir("planio/dataclasses/$photoId")
+            ?.listFiles()?.toMutableList() ?: mutableListOf()
+        changeToPlantPhotos(plantList)
     }
 
     fun displayPlantDetails(plantIndividual: PlantIndividual) {
@@ -123,10 +124,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
             try {
                 mediaLists = context?.getExternalFilesDir("planio/plants")
                     ?.listFiles()?.sortedDescending()?.toMutableList() ?: mutableListOf()
-
-                for (item in mediaLists) {
-                    Log.i(TAG, "BigMediaList.absolutePath: " + item.absolutePath)
-                }
             }catch (e: Exception) {
                 //todo: create a "Directory not found" message in the UI to notify user
                 Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
@@ -175,7 +172,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
     fun changeToPlantIndividuals(plantList: MutableList<File>) {
         newList.clear()
         for (item in plantList) {
-            Log.i(TAG, "change to PlantIndividuals.absolutePath: " + item.absolutePath)
         }
 
         plantList.map {
@@ -185,13 +181,7 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
             newList.add(item)
         }
 
-        for (item in newList) {
-            Log.i(TAG, "PLANTINDIVIDUAL LOCATION: ${item.plantId}")
-            Log.i(TAG, "PlantIndividualListPath: " + item.plantFilePath.toString())
-        }
-
         _newListLiveData.value = newList
-        Log.i("OnCreate", "newListIndividualLiveData has value.")
     }
 
     fun makeNewPlant(name: String) {
@@ -200,17 +190,11 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val plantPhotoSPKey = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context)?.toInt()
         val plantPhotoSPValue = getNewSpIdNumber(plantPhotoSPKey.toString(), context)?.toInt()
 
-        Log.i(TAG, "plntIndiSPNum: $plntIndiSPNum")
-        Log.i(TAG, "plantPhotoSPKey: $plantPhotoSPKey")
-        Log.i(TAG, "plantPhotoSPValue: $plantPhotoSPValue")
-
         val plantPhotoFilePath = File(context.getExternalFilesDir(null), "planio/dataclasses")
         if (!plantPhotoFilePath.exists()) {
             plantPhotoFilePath.mkdirs()
         }
         val specificPlantPath = File(plantPhotoFilePath, "$plntIndiSPNum")
-        Log.i(TAG, "PLANTPHOTOSPVALUE: ${plantPhotoSPValue}")
-        Log.i(TAG, "PLANTIndiSPNum: ${plntIndiSPNum}")
         if(!specificPlantPath.exists()){
             specificPlantPath.mkdirs()
         }
@@ -235,17 +219,11 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val plantFile = FileOutputStream(dirOne, true)
         val outStream = ObjectOutputStream(plantFile)
 
-        // Method for serialization of object
         outStream.writeObject(newPlantIndividual)
         outStream.close()
         plantFile.close()
-        Log.i(TAG, "Image saved successfully ${dirOne.absolutePath}")
 
         editSpIdNumber("plntIndiSPNum", context)
-
-        Log.i(TAG, "plntIndiSPNum: $plntIndiSPNum")
-        Log.i(TAG, "plantPhotoSPKey: $plantPhotoSPKey")
-        Log.i(TAG, "plantPhotoSPValue: $plantPhotoSPValue")
 
         retrieveFileList()
         changeToPlantIndividuals(mediaLists)
@@ -287,17 +265,19 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
                 fos = imageUri?.let { resolver.openOutputStream(it) }
             }
         } else {
-            //These for devices running on android < Q
-            //So I don't think an explanation is needed here
             val imagesDir =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val image = File(imagesDir, filename)
             fos = FileOutputStream(image)
         }
-
         fos?.use {
-            //Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
         }
+
+        Toast.makeText(
+            context,
+            "Image Downloaded",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
