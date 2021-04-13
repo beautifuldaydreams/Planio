@@ -23,11 +23,12 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@string/image" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
-                    android:layout_width="300dp"
+                    android:layout_width="310dp"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
@@ -38,18 +39,21 @@
                     app:layout_constraintVertical_bias="0.13999999">
 
                         <ImageView
-                            android:layout_width="300dp"
-                            android:layout_height="70dp"
+                            android:layout_width="310dp"
+                            android:layout_height="85dp"
                             android:layout_gravity="start"
                             android:scaleType="fitXY"
                             android:src="@drawable/ic_horizontal_recyclerview_outline"
-                            android:translationZ="5dp" />
+                            android:translationZ="5dp"
+                            android:contentDescription="@string/image" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/camera_recyclerview"
-                            android:layout_width="300dp"
-                            android:layout_height="70dp"
+                            android:layout_width="299dp"
+                            android:layout_height="80dp"
                             android:orientation="horizontal"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="3dp"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +79,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                    app:layout_constraintVertical_bias="0.36" />
+                    app:layout_constraintVertical_bias="0.36"
+                    android:contentDescription="@string/image" />
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -87,7 +92,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="@+id/cardView"
                     app:layout_constraintStart_toStartOf="@+id/cardView"
-                    app:layout_constraintTop_toTopOf="@+id/cardView" />
+                    app:layout_constraintTop_toTopOf="@+id/cardView"
+                    android:contentDescription="@string/image" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
@@ -95,6 +101,7 @@
                     android:layout_height="440dp"
                     app:cardCornerRadius="30dp"
                     app:cardElevation="0dp"
+                    app:layout_constraintCircleRadius="2dp"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +133,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/cardView"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            tools:srcCompat="@tools:sample/avatars"
+                            android:contentDescription="@string/image" />
                 </androidx.cardview.widget.CardView>
 
 
@@ -142,7 +150,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.85"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/camera_capture_button" />
+                    app:layout_constraintTop_toTopOf="@+id/camera_capture_button"
+                    android:contentDescription="@string/image" />
 
 <!--            <androidx.recyclerview.widget.RecyclerView-->
 <!--                android:id="@+id/camera_recyclerview"-->

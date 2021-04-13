@@ -7,8 +7,6 @@
     <!-- Declare permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <application android:name="MyApplication"/>
-
     <uses-permission android:name="android.permission.WRITE_ExTERNAL_STORAGE" />
 
 </manifest>

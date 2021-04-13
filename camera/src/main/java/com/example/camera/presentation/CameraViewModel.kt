@@ -2,7 +2,6 @@ package com.example.camera.presentation
 
 import android.app.Application
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,10 +16,9 @@ import java.io.*
 
 class CameraViewModel(application: Application)  : AndroidViewModel(application) {
 
-    private val SaveTag = "SAVEDIMAGE"
     private val context = getApplication<Application>().applicationContext
 
-    lateinit var spIdNumber : String
+    private lateinit var spIdNumber : String
 
     private var plantIndividualList = mutableListOf<PlantIndividual>()
     private var individualFileList = mutableListOf<File>()
@@ -38,15 +36,12 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         get() = _edgeDetectionImage
 
     init {
-        //Todo: change this to plant specific SPIdNumber
         if (!this::spIdNumber.isInitialized) {
             spIdNumber = "0"
         }
         selectForPreviewComplete()
         retrievePlantIndividualFileList()
-        Log.i("OnCreate", "PlantIndividualFileList retrieved")
         changeToPlantIndividuals(individualFileList)
-        Log.i("OnCreate", "function changeToPlantIndividual(individualFileLists) executed")
     }
 
     fun onEdgeDetection(bitmap: Bitmap){
@@ -57,29 +52,18 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         _edgeDetectionImage.value = null
     }
 
-    fun retrievePlantIndividualFileList() {
+    private fun retrievePlantIndividualFileList() {
         viewModelScope.launch {
             try {
                 individualFileList = context?.getExternalFilesDir("planio/plants")
                     ?.listFiles()?.toMutableList() ?: mutableListOf()
             }catch (e: Exception) {
-                //todo: create a "Directory not found" message in the UI to notify user
-                Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
                 return@launch
             }
         }
-        Log.i("OnCreate", "individualFileList created")
-        Log.i(
-            "OnCreate",
-            "IndividualFile path: " + context?.getExternalFilesDir("planio/plants").toString()
-        )
-        Log.i("OnCreate", "individualFileList size: " + individualFileList.size.toString())
-        for (item in individualFileList) {
-            Log.i("OnCreate", "individualFileList.absolutePath: " + item.absolutePath)
-        }
     }
 
-    fun changeToPlantIndividuals(plantList: MutableList<File>) {
+    private fun changeToPlantIndividuals(plantList: MutableList<File>) {
         viewModelScope.launch {
             plantList.map {
                 val file = FileInputStream(it)
@@ -87,50 +71,31 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
                 val item = inStream.readObject() as PlantIndividual
                 plantIndividualList.add(item)
             }
-            for (item in plantIndividualList) {
-                Log.i("OnCreate", "PlantIndividualListPath: " + item.plantFilePath.toString())
-            }
             newListIndividualLiveData.value = plantIndividualList
-            Log.i("OnCreate", "newListIndividualLiveData has value.")
         }
     }
 
-    //Todo: save image to chosen plant in recycler view
     fun saveImage(photoFile: File) {
 
         val plantIndi = selectForPreview.value
-        val SPNum = getNewSpIdNumber(
+        val sPNum = getNewSpIdNumber(
             plantIndi?.plantId.toString(), context)?.toInt()
-        Log.i(SaveTag, "SPNum key: ${plantIndi?.plantId} SPNum value: $SPNum")
-        Log.i(SaveTag, "SPNum key: ${plantIndi?.plantId} SPNum value: $SPNum")
 
-        val newImage = SPNum?.let {
+        val newImage = sPNum?.let {
             plantIndi?.plantId?.let { it1 -> PlantPhoto(it1, photoFile, it) }
         }
-        Log.i(SaveTag, "newImage.plantId: ${plantIndi?.plantId} newImage.photoId: ${SPNum}")
 
         val dir = File(
             context.getExternalFilesDir(null), "planio/dataclasses"
         )
-        if (!dir.exists()) {
-            dir.mkdirs()
-            Log.i(SaveTag, dir.absolutePath)
-        }
-        Log.i(SaveTag, dir.absolutePath)
+        if (!dir.exists()) { dir.mkdirs() }
 
         val dirOne = File(dir, "${plantIndi?.plantId}")
 
         if(!dirOne.exists()){
             dir.mkdirs()
-            Log.i(SaveTag, "After dirOne made: $dirOne")
         }
-
-        Log.i(SaveTag, dirOne.absolutePath)
-        Log.i(SaveTag, dirOne.isFile.toString())
-        Log.i(SaveTag, dirOne.isDirectory.toString())
-
-        val dataClassLocation = File(dirOne, "$SPNum")
-        Log.i(SaveTag, "After dirOne made: $dataClassLocation")
+        val dataClassLocation = File(dirOne, "$sPNum")
 
         editSpIdNumber(plantIndi?.plantId.toString(), context)
 
@@ -149,15 +114,11 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
         outStream.close()
         plantFile.close()
 
-        editSpIdNumber(SPNum.toString(), context)
-        Log.i(SaveTag, "AFTER SAVING - SPNum key: ${plantIndi?.plantId} SPNum value: $SPNum")
-        Log.i(SaveTag, "Image saved successfully")
+        editSpIdNumber(sPNum.toString(), context)
     }
 
     fun onSelectForPreview(plantIndividual: PlantIndividual){
         _selectForPreview.value = plantIndividual
-        Log.i(SaveTag, "select for preview value: ${selectForPreview.value}")
-        Log.i(SaveTag, "select for preview value: ${selectForPreview.value?.plantId}")
     }
 
     fun selectForPreviewComplete() {

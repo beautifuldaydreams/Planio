@@ -3,7 +3,6 @@ package com.example.collection.presentation.individual
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ class CollectionIndividualFragment: Fragment() {
     private lateinit var binding: FragmentCollectionIndividualBinding
 
     val context = this
-    val debug3 = "DEBUG3"
 
     private val viewModel: CollectionOverviewViewModel by activityViewModels()
     var imgUrl : File? = null
@@ -107,7 +105,6 @@ class CollectionIndividualFragment: Fragment() {
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View, position: Int, id: Long) {
                 if (position == 1) {
-                    Log.i(debug3, "navigated?")
                     viewModel.deleteSelectedPlantIndividual(plantIndividual)
                     binding.spinner.setSelection(0)
                     context.findNavController().navigate(

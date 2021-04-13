@@ -1,25 +1,15 @@
 package com.example.collection.presentation.individual
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.collection.RTAG
-import com.example.collection.databinding.ImageItemViewBinding
 import com.example.collection.databinding.ImagePlantPhotoViewBinding
-import com.example.collection.presentation.overview.CollectionOverviewAdapter
-import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 
 class CollectionIndividualAdapter(private val onClickListener: OnClickListener) : ListAdapter<PlantPhoto,
         CollectionIndividualAdapter.PlantPhotoViewHolder>(DiffCallback) {
-
-    val TAG: String = "CollectionIndividualAdapter"
-    val debug1 = "DEBUG1"
-    val scroll = "SCROLL"
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -56,7 +46,6 @@ class CollectionIndividualAdapter(private val onClickListener: OnClickListener) 
     ):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(plantPhoto: PlantPhoto) {
-            Log.d("DEBUG1", "path ${plantPhoto.plantFilePath}")
             binding.plantPhoto = plantPhoto
         }
     }

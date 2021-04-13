@@ -73,26 +73,6 @@ public class Imgcodecs {
             IMWRITE_EXR_TYPE_FLOAT = 2;
 
 
-    // C++: enum ImwriteFlags (cv.ImwriteFlags)
-    public static final int
-            IMWRITE_JPEG_QUALITY = 1,
-            IMWRITE_JPEG_PROGRESSIVE = 2,
-            IMWRITE_JPEG_OPTIMIZE = 3,
-            IMWRITE_JPEG_RST_INTERVAL = 4,
-            IMWRITE_JPEG_LUMA_QUALITY = 5,
-            IMWRITE_JPEG_CHROMA_QUALITY = 6,
-            IMWRITE_PNG_COMPRESSION = 16,
-            IMWRITE_PNG_STRATEGY = 17,
-            IMWRITE_PNG_BILEVEL = 18,
-            IMWRITE_PXM_BINARY = 32,
-            IMWRITE_EXR_TYPE = (3 << 4) + 0,
-            IMWRITE_WEBP_QUALITY = 64,
-            IMWRITE_PAM_TUPLETYPE = 128,
-            IMWRITE_TIFF_RESUNIT = 256,
-            IMWRITE_TIFF_XDPI = 257,
-            IMWRITE_TIFF_YDPI = 258,
-            IMWRITE_TIFF_COMPRESSION = 259;
-
 
     // C++: enum ImwritePAMFlags (cv.ImwritePAMFlags)
     public static final int

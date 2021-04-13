@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,8 +44,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraFragment : Fragment(){
-
-    val TAG = "BUG"
 
     private lateinit var binding: FragmentCameraBinding
     private lateinit var binding2: ToastBinding
@@ -89,9 +86,7 @@ class CameraFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         OpenCVLoader.initDebug()
-        // Request camera permissions
         if (allPermissionsGranted()) {
-            //Todo: If laggy add coroutine here and make startCamera a suspend function
             startCamera()
         } else {
             requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -121,10 +116,7 @@ class CameraFragment : Fragment(){
             if (null != it && !specificFile?.isEmpty()!!) {
                 binding.edgeDetectionView.translationZ = 5.0F
                 mImageToImageWithEdge(it)
-            } else {
-                viewModel.onEdgeDetectionNull()
-                Log.i(TAG, "edgeDetectionImage.value if blank plant = ${viewModel.edgeDetectionImage.value}")
-            }
+            } else { viewModel.onEdgeDetectionNull() }
         })
         viewModel.edgeDetectionImage.observe(viewLifecycleOwner, {
             if (viewModel.edgeDetectionImage.value != null) {
@@ -192,12 +184,9 @@ class CameraFragment : Fragment(){
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(
-                    safeContext,
+                Toast.makeText(safeContext,
                     "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
-                ).show()
-//                finish()
+                    Toast.LENGTH_SHORT).show()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -210,12 +199,11 @@ class CameraFragment : Fragment(){
         return if (mediaDir != null && mediaDir.exists()) mediaDir else activity?.filesDir!!
     }
 
-
     companion object {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         internal const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-        var isOffline = false // prevent app crash when goes offline
+        var isOffline = false
     }
 
     private fun mImageToImageWithEdge(plantIndividual: PlantIndividual) {
@@ -225,12 +213,10 @@ class CameraFragment : Fragment(){
         val specificFile: File?
 
         try {
-                toBeEdgeDetected = context?.getExternalFilesDir("planio/dataclasses")
-                specificFile = (File(toBeEdgeDetected, "$id")
+            toBeEdgeDetected = context?.getExternalFilesDir("planio/dataclasses")
+            specificFile = (File(toBeEdgeDetected, "$id")
                     .listFiles()?.toMutableList() ?: mutableListOf()).last()
             }catch (e: Exception) {
-                //todo: create a "Directory not found" message in the UI to notify user
-                Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
                 return
             }
 
@@ -274,7 +260,6 @@ class CameraFragment : Fragment(){
             Bitmap.createBitmap(image.width, image.height, Bitmap.Config.ARGB_8888)
         Utils.matToBitmap(dst, output)
         viewModel.onEdgeDetection(output)
-//        BitmapHelper.showBitmap(safeContext, output, binding.edgeDetectionView)
     }
 
     override fun onResume() {

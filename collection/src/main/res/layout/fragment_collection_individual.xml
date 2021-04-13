@@ -28,7 +28,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35000002" />
+            app:layout_constraintVertical_bias="0.35000002"
+            android:contentDescription="@string/image" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -52,14 +53,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.357"
-                app:singleImage="@{viewModel.plantPhotoDisplay.plantFilePath}" />
+                app:singleImage="@{viewModel.plantPhotoDisplay.plantFilePath}"
+                android:contentDescription="@string/image" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="13dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,15 +71,16 @@
 
             <ImageView
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="63dp"
                 android:layout_gravity="start"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_horizontal_recyclerview_outline"
-                android:translationZ="5dp" />
+                android:translationZ="5dp"
+                android:contentDescription="@string/image" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/collection_individual_recyclerview"
-                android:layout_width="300dp"
+                android:layout_width="290dp"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -88,6 +91,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:layout_constraintVertical_bias="0.25"
                 app:listPhotoData="@{viewModel.listPlantPhoto}"
+                android:layout_marginTop="1.6dp"
+                android:layout_marginStart="5dp"
                 tools:listitem="@layout/image_plant_photo_view" />
 
         </androidx.cardview.widget.CardView>
@@ -120,7 +125,8 @@
             app:layout_constraintStart_toStartOf="@+id/spinner"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.04000002"
-            app:srcCompat="@drawable/ic_save_button" />
+            app:srcCompat="@drawable/ic_save_button"
+            android:contentDescription="@string/image" />
 
         <ImageButton
             android:id="@+id/to_collection_overview"
@@ -132,7 +138,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.96"
-            app:srcCompat="@drawable/ic_button_outline" />
+            app:srcCompat="@drawable/ic_button_outline"
+            android:contentDescription="@string/image" />
 
         <TextView
             android:id="@+id/textView4"

@@ -8,9 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,9 +23,7 @@ import java.io.*
 
 class CollectionOverviewViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val debug3 = "DEBUG3"
-
-    lateinit var mediaLists: MutableList<File>
+    private lateinit var mediaLists: MutableList<File>
     lateinit var mediaPlantList: MutableList<File>
     var newPhotoList = mutableListOf<PlantPhoto>()
     private var newList = mutableListOf<PlantIndividual>()
@@ -50,37 +46,25 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
     val plantPhotoDisplay: LiveData<PlantPhoto>
         get() = _plantPhotoDisplay
 
-    var placeHolderPlantPhoto: PlantPhoto = PlantPhoto(0, null, 0)
+    private var placeHolderPlantPhoto: PlantPhoto = PlantPhoto(0, null, 0)
 
     init {
         retrieveFileList()
         changeToPlantIndividuals(mediaLists)
-        Log.i("OnCreate", "mediaList retrieved")
-        Log.i("OnCreate", "function changeToPlantPhoto(mediaLists) executed")
     }
 
     fun deleteSelectedPlantIndividual(plantIndividual: PlantIndividual) {
 
         val dir = plantIndividual.plantId
-        Log.i(debug3, dir.toString())
         val plantList = context?.getExternalFilesDir("planio/dataclasses/$dir")
             ?.listFiles()?.toMutableList() ?: mutableListOf()
-
-        for (item in plantList) {
-            Log.i(debug3, "plantList.absolutePath: " + item.absolutePath)
-        }
 
         for (item in plantList) {
             val file = FileInputStream(item)
             val inStream = ObjectInputStream(file)
             val item2 = inStream.readObject() as PlantPhoto
-            Log.i(debug3, item2.plantFilePath.toString())
             item2.plantFilePath?.delete()
             item.delete()
-        }
-
-        for (item in plantList) {
-            Log.i(debug3, "AFTER DEL plantList.absolutePath: " + item.absolutePath)
         }
 
         plantIndividual.plantFilePath.delete()
@@ -88,9 +72,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         plantIndiDel?.delete()
 
         retrieveFileList()
-        for (item in mediaLists) {
-            Log.i(debug3, "BigMediaList.absolutePath: " + item.absolutePath)
-        }
         changeToPlantIndividuals(mediaLists)
     }
 
@@ -101,7 +82,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val slocation = File(location, "$photoId2")
         imgUrl.plantFilePath?.delete()
         slocation.delete()
-
         val plantList = context?.getExternalFilesDir("planio/dataclasses/$photoId")
             ?.listFiles()?.toMutableList() ?: mutableListOf()
         changeToPlantPhotos(plantList)
@@ -125,15 +105,9 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
                 mediaLists = context?.getExternalFilesDir("planio/plants")
                     ?.listFiles()?.sortedDescending()?.toMutableList() ?: mutableListOf()
             }catch (e: Exception) {
-                //todo: create a "Directory not found" message in the UI to notify user
-                Log.i("OnCreate", "planio/dataclasses/0 directory not found.")
                 return@launch
             }
         }
-
-        Log.i("OnCreate", "mediaList created")
-        Log.i("OnCreate", "File path: " + context?.getExternalFilesDir("planio/dataclasses/1").toString())
-        Log.i("OnCreate", "mediaLists size: " + mediaLists?.size.toString())
     }
 
     fun retrievePlantList(plantIndividual: PlantIndividual) {
@@ -141,9 +115,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         viewModelScope.launch {
             mediaPlantList = context?.getExternalFilesDir("planio/dataclasses/$dataClassNum")
                 ?.listFiles()?.sortedDescending()?.toMutableList() ?: mutableListOf()
-            for (i in mediaPlantList) {
-                Log.i(debug1, "ABSOLUTEPATH: ${i.absolutePath}")
-            }
         }
     }
 
@@ -152,43 +123,30 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         for (item in plantList) {
             val file = FileInputStream(item)
             val inStream = ObjectInputStream(file)
-            val item = inStream.readObject() as PlantPhoto
-            newPhotoList.add(item)
+            val item2 = inStream.readObject() as PlantPhoto
+            newPhotoList.add(item2)
         }
-
-            for (item in newPhotoList) {
-                Log.i(debug1, "PlantPhotoListPath: " + item.plantFilePath.toString())
-            }
             if (newPhotoList.isNotEmpty()) {
                 newPhotoList.last()
             } else {
                 newPhotoList.add(placeHolderPlantPhoto)
             }
-            Log.i(debug1, "PlantPhotoDisplay is empty? ${plantPhotoDisplay.value?.plantFilePath}")
             _listPlantPhoto.value = newPhotoList
-            Log.i(debug1, "listPlantPhoto is empty? ${listPlantPhoto.value?.isEmpty()}")
     }
 
-    fun changeToPlantIndividuals(plantList: MutableList<File>) {
+    private fun changeToPlantIndividuals(plantList: MutableList<File>) {
         newList.clear()
-        for (item in plantList) {
-        }
-
         plantList.map {
             val file = FileInputStream(it)
             val inStream = ObjectInputStream(file)
             val item = inStream.readObject() as PlantIndividual
             newList.add(item)
         }
-
         _newListLiveData.value = newList
     }
 
     fun makeNewPlant(name: String) {
-
         val plntIndiSPNum = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context)?.toInt()
-        val plantPhotoSPKey = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context)?.toInt()
-        val plantPhotoSPValue = getNewSpIdNumber(plantPhotoSPKey.toString(), context)?.toInt()
 
         val plantPhotoFilePath = File(context.getExternalFilesDir(null), "planio/dataclasses")
         if (!plantPhotoFilePath.exists()) {
@@ -224,7 +182,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         plantFile.close()
 
         editSpIdNumber("plntIndiSPNum", context)
-
         retrieveFileList()
         changeToPlantIndividuals(mediaLists)
     }
@@ -237,31 +194,17 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val matrix = Matrix()
         matrix.postRotate(90F)
         val bitmap = Bitmap.createBitmap(bit, 0, 0, bit.width, bit.height, matrix, true)
-        //Generating a file name
         val filename = "${System.currentTimeMillis()}.jpg"
-
-        //Output stream
         var fos: OutputStream? = null
-
-        //For devices running android >= Q
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            //getting the contentResolver
             context?.contentResolver?.also { resolver ->
-
-                //Content resolver will process the contentvalues
                 val contentValues = ContentValues().apply {
-
-                    //putting file information in content values
                     put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
-
-                //Inserting the contentValues to contentResolver and getting the Uri
                 val imageUri: Uri? =
                     resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-                //Opening an outputstream with the Uri that we got
                 fos = imageUri?.let { resolver.openOutputStream(it) }
             }
         } else {

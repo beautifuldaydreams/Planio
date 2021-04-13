@@ -17,11 +17,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/overview_recycler_view"
-            android:layout_width="301dp"
-            android:layout_height="399dp"
+            android:layout_width="250dp"
+            android:layout_height="395dp"
+            android:foregroundGravity="center"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.55"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.52"
@@ -42,7 +44,8 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.96" />
+            app:layout_constraintVertical_bias="0.96"
+            android:contentDescription="@string/image" />
 
         <ImageButton
             android:id="@+id/add_plant"

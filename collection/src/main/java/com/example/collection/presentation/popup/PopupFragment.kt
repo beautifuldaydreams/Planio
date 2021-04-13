@@ -3,7 +3,6 @@ package com.example.collection.presentation.popup
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,9 @@ import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.DialogFragment
 import com.example.collection.R
-import java.lang.ClassCastException
 
 
 class PopupFragment: DialogFragment() {
-
-    val TAG = "PopupFagmentError"
 
     override fun getTheme() = R.style.DialogCustomTheme
 
@@ -24,25 +20,17 @@ class PopupFragment: DialogFragment() {
         fun sendInput(input: String)
     }
 
-    var mOnInputSelected: OnInputSelected? = null
+    private var mOnInputSelected: OnInputSelected? = null
 
-    // widgets
     private lateinit var closeButton: AppCompatImageButton
     private lateinit var createButton: AppCompatImageButton
     private lateinit var textInput: EditText
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i(TAG, "oncreatE")
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(TAG, "oncreateview")
         val view = inflater.inflate(R.layout.new_plant_popup, container, false)
         closeButton = view.findViewById(R.id.closed_button)
         createButton = view.findViewById(R.id.create_button)
@@ -65,11 +53,9 @@ class PopupFragment: DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.i(TAG, "onATTACH")
         try {
             mOnInputSelected = targetFragment as OnInputSelected?
         } catch (e: ClassCastException) {
-            Log.e(TAG, "CANNOT CAST MARIO MUSIC IS WTF")
         }
     }
 }

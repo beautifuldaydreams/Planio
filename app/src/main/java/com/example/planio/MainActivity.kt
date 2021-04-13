@@ -1,15 +1,13 @@
 package com.example.planio
 
 import android.os.Bundle
-import android.view.View
 import android.view.Window
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.core.R
 import com.example.navigation.NavigationFlow
 import com.example.navigation.Navigator
 import com.example.navigation.ToFlowNavigatable
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), ToFlowNavigatable {
     private val navigator: Navigator = Navigator()

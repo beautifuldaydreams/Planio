@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="156dp"
-            android:layout_height="200dp"
+            android:layout_width="114.61dp"
+            android:layout_height="146.94dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/ic_image_outline"
             android:translationZ="5dp"
@@ -29,8 +29,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
-            android:layout_width="155dp"
-            android:layout_height="199dp"
+            android:layout_width="113.88dp"
+            android:layout_height="146.2dp"
             app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="@+id/imageView3"
@@ -39,8 +39,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="149dp"
-                android:layout_height="196dp"
+                android:layout_width="109.47dp"
+                android:layout_height="144dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/todo"
                 app:imageFilePath="@{plantIndividual.plantFilePath}"
@@ -48,15 +48,14 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageView3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.26"
-                tools:srcCompat="@drawable/ic_placeholder" />
+                app:layout_constraintVertical_bias="0.26"/>
         </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/textWrapper"
-            android:layout_width="wrap_content"
+            android:layout_width="114dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_text_wrapper"
+            android:src="@drawable/ic_horizontal_recyclerview_outline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
