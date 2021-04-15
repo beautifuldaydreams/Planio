@@ -4,10 +4,13 @@ import android.app.Application
 import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.media.MediaScannerConnection
+import android.media.MediaScannerConnection.OnScanCompletedListener
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -20,6 +23,7 @@ import com.example.storage.data.PlantIndividual
 import com.example.storage.data.PlantPhoto
 import kotlinx.coroutines.launch
 import java.io.*
+
 
 class CollectionOverviewViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -157,7 +161,12 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
             specificPlantPath.mkdirs()
         }
 
-        val newPlantIndividual = plntIndiSPNum?.let { PlantIndividual(it, name, specificPlantPath, "") }
+        val newPlantIndividual = plntIndiSPNum?.let { PlantIndividual(
+            it,
+            name,
+            specificPlantPath,
+            ""
+        ) }
 
         val dir = File(
             context.getExternalFilesDir(null), "planio/plants"
@@ -188,6 +197,10 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
 
     fun saveMediaToStorage(bit: Bitmap?) {
 
+        var isStorageExist = false
+        var isStorageWritable = false
+        val state = Environment.getExternalStorageState()
+
         if (bit == null) {
             return
         }
@@ -196,31 +209,78 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val bitmap = Bitmap.createBitmap(bit, 0, 0, bit.width, bit.height, matrix, true)
         val filename = "${System.currentTimeMillis()}.jpg"
         var fos: OutputStream? = null
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            context?.contentResolver?.also { resolver ->
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                }
-                val imageUri: Uri? =
-                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                fos = imageUri?.let { resolver.openOutputStream(it) }
-            }
+
+        if (Environment.MEDIA_MOUNTED == state) {
+            isStorageWritable = true
+            isStorageExist = isStorageWritable
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY == state) {
+            isStorageExist = true
+            isStorageWritable = false
+            Toast.makeText(context, "Storage is read only", Toast.LENGTH_SHORT).show()
         } else {
-            val imagesDir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val image = File(imagesDir, filename)
-            fos = FileOutputStream(image)
-        }
-        fos?.use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            isStorageWritable = false
+            isStorageExist = isStorageWritable
+            Toast.makeText(context, "Storage is not exist", Toast.LENGTH_SHORT).show()
         }
 
-        Toast.makeText(
-            context,
-            "Image Downloaded",
-            Toast.LENGTH_SHORT
-        ).show()
+        if (isStorageExist && isStorageWritable){
+            try{
+                var imageUri2 : Uri? = null
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    context?.contentResolver?.also { resolver ->
+                        val contentValues = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                            put(
+                                MediaStore.MediaColumns.RELATIVE_PATH,
+                                Environment.DIRECTORY_PICTURES
+                            )
+                        }
+                        val imageUri: Uri? =
+                            resolver.insert(
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                contentValues
+                            )
+                        fos = imageUri?.let { resolver.openOutputStream(it) }
+                        imageUri2= imageUri
+                    }
+
+                    MediaScannerConnection.scanFile(context, arrayOf(imageUri2.toString()), null
+                    ) { path, uri ->
+                        Log.i("ExternalStorage", "Scanned $path:")
+                        Log.i("ExternalStorage", "-> uri=$uri")
+                    }
+
+                } else {
+                    val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + File.separator + "Camera"
+                    val file = File(imagesDir)
+                    if (!file.exists()) {
+                        file.mkdir()
+                    }
+                    val image = File(imagesDir, filename)
+                    fos = FileOutputStream(image)
+                    Log.i("SAVEPHOTO", image.absolutePath)
+                    MediaScannerConnection.scanFile(context, arrayOf(image.toString()), null
+                    ) { path, uri ->
+                        Log.i("ExternalStorage", "Scanned $path:")
+                        Log.i("ExternalStorage", "-> uri=$uri")
+                    }
+                }
+                fos?.use {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+                }
+                Toast.makeText(
+                    context,
+                    "Image Downloaded",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } catch (exception: Exception){
+                Toast.makeText(
+                    context,
+                    "Image failed to download",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

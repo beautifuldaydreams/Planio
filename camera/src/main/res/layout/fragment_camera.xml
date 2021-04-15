@@ -7,6 +7,7 @@
                     name="viewModel"
                     type="com.example.camera.presentation.CameraViewModel" />
         </data>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -17,14 +18,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/background"
+                    android:contentDescription="@string/image"
                     android:padding="10dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_camera_fragment_outline"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/image" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                        android:layout_width="@dimen/_248sdp"
+            android:layout_height="@dimen/_331sdp"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardView2"
+                    app:layout_constraintCircleRadius="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.camera.view.PreviewView
+                            android:id="@+id/viewFinder"
+                                android:layout_width="@dimen/_248sdp"
+                                android:layout_height="@dimen/_331sdp"
+                            android:stateListAnimator="@null"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.185" />
+
+                        <ImageView
+                            android:id="@+id/edge_detection_view"
+            android:layout_width="@dimen/_248sdp"
+            android:layout_height="@dimen/_331sdp"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="false"
+                            android:alpha="0.4"
+                            android:contentDescription="@string/image"
+                            android:rotation="90"
+                            android:scaleType="center"
+                            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/cardView"
+                            tools:srcCompat="@tools:sample/avatars" />
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
@@ -32,28 +74,27 @@
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/camera_capture_button"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView"
-                    app:layout_constraintVertical_bias="0.13999999">
+                    app:layout_constraintTop_toBottomOf="@+id/cardView">
 
                         <ImageView
                             android:layout_width="310dp"
                             android:layout_height="85dp"
                             android:layout_gravity="start"
+                            android:contentDescription="@string/image"
                             android:scaleType="fitXY"
                             android:src="@drawable/ic_horizontal_recyclerview_outline"
-                            android:translationZ="5dp"
-                            android:contentDescription="@string/image" />
+                            android:translationZ="5dp" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/camera_recyclerview"
                             android:layout_width="299dp"
                             android:layout_height="80dp"
+                            android:layout_marginStart="4dp"
                             android:orientation="horizontal"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginStart="3dp"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -71,71 +112,28 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:background="@color/white"
+                    android:contentDescription="@string/image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_camera_capture_button"
                     android:text="@string/take_photo"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                    app:layout_constraintVertical_bias="0.36"
-                    android:contentDescription="@string/image" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="345dp"
-                    android:layout_height="440dp"
+                    android:layout_width="@dimen/_248sdp"
+                    android:layout_height="@dimen/_331sdp"
+                    android:contentDescription="@string/image"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_image_outline"
                     android:translationZ="5dp"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="@+id/cardView"
                     app:layout_constraintStart_toStartOf="@+id/cardView"
-                    app:layout_constraintTop_toTopOf="@+id/cardView"
-                    android:contentDescription="@string/image" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
-                    android:layout_width="345dp"
-                    android:layout_height="440dp"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="0dp"
-                    app:layout_constraintCircleRadius="2dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/cardView2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.31">
-
-                        <androidx.camera.view.PreviewView
-                            android:id="@+id/viewFinder"
-                            android:layout_width="345dp"
-                            android:layout_height="440dp"
-                            android:stateListAnimator="@null"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.185">
-                        </androidx.camera.view.PreviewView>
-
-                        <ImageView
-                            android:id="@+id/edge_detection_view"
-                            android:layout_width="440dp"
-                            android:layout_height="345dp"
-                            android:adjustViewBounds="false"
-                            android:alpha="0.4"
-                            android:rotation="90"
-                            android:scaleType="center"
-                            android:layout_gravity="center"
-                            app:layout_constraintBottom_toBottomOf="@+id/cardView"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/cardView"
-                            tools:srcCompat="@tools:sample/avatars"
-                            android:contentDescription="@string/image" />
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="@+id/cardView" />
 
 
                 <ImageButton
@@ -143,6 +141,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@color/white"
+                    android:contentDescription="@string/image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_home_button"
                     android:text="@string/main_screen"
@@ -150,21 +149,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.85"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/camera_capture_button"
-                    android:contentDescription="@string/image" />
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/camera_recyclerview"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                app:listData="@{viewModel.newListIndividualLiveData}"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/viewFinder"-->
-<!--                tools:listitem="@layout/plant_item_view" />-->
+                    app:layout_constraintTop_toTopOf="@+id/camera_capture_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

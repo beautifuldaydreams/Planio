@@ -43,7 +43,7 @@
             android:layout_height="22dp"
             android:fontFamily="@font/annie_use_your_telescope"
             android:gravity="center"
-            android:textSize="7dp"
+            android:textSize="12sp"
             android:text="@{plantIndividual.plantName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,8 @@
 package com.example.collection.presentation.individual
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -8,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.collection.R
 import androidx.databinding.DataBindingUtil
@@ -21,6 +27,7 @@ import com.example.collection.databinding.FragmentCollectionIndividualBinding
 import com.example.collection.presentation.overview.CollectionOverviewViewModel
 import com.example.storage.data.PlantPhoto
 import java.io.File
+import java.util.concurrent.ExecutorService
 
 
 class CollectionIndividualFragment: Fragment() {
@@ -29,9 +36,15 @@ class CollectionIndividualFragment: Fragment() {
 
     val context = this
 
+    private var currentBitmap: Bitmap? =null
     private val viewModel: CollectionOverviewViewModel by activityViewModels()
     var imgUrl : File? = null
+    private lateinit var safeContext: Context
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        safeContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,8 +100,16 @@ class CollectionIndividualFragment: Fragment() {
             }
         })
         binding.saveImage.setOnClickListener {
-            val bit :Bitmap? = BitmapFactory.decodeFile(viewModel.plantPhotoDisplay.value?.plantFilePath.toString())
-            viewModel.saveMediaToStorage(bit)
+            currentBitmap = BitmapFactory.decodeFile(viewModel.plantPhotoDisplay.value?.plantFilePath.toString())
+            if (allPermissionsGranted()) {
+                viewModel.saveMediaToStorage(currentBitmap)
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    REQUIRED_PERMISSIONS,
+                    REQUEST_CODE_PERMISSIONS
+                )
+            }
         }
         val deleteList = resources.getStringArray(R.array.delete_array)
         val adapter = ArrayAdapter(
@@ -137,5 +158,31 @@ class CollectionIndividualFragment: Fragment() {
         binding.button.text = plantIndividualName
         binding.viewModel = viewModel
         return binding.root
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(safeContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                viewModel.saveMediaToStorage(currentBitmap)
+            } else {
+                Toast.makeText(safeContext,
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    companion object {
+        internal const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 }

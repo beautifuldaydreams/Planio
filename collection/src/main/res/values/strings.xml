@@ -17,8 +17,8 @@
     <string name="image">image</string>
     <string-array name="delete_array">
         <item />
-        <item>plant</item>
-        <item>photo</item>
+        <item>  plant</item>
+        <item>  photo</item>
         <item />
     </string-array>
 
