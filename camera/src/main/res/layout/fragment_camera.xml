@@ -19,7 +19,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/background"
                     android:contentDescription="@string/image"
-                    android:padding="10dp"
+                    android:padding="@dimen/_8sdp"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_camera_fragment_outline"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -29,10 +29,11 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
-                        android:layout_width="@dimen/_248sdp"
-            android:layout_height="@dimen/_331sdp"
+                    android:layout_width="@dimen/_248sdp"
+                    android:layout_height="@dimen/_331sdp"
                     app:cardCornerRadius="40dp"
                     app:cardElevation="0dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     app:layout_constraintBottom_toTopOf="@+id/cardView2"
                     app:layout_constraintCircleRadius="6dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -42,8 +43,8 @@
 
                         <androidx.camera.view.PreviewView
                             android:id="@+id/viewFinder"
-                                android:layout_width="@dimen/_248sdp"
-                                android:layout_height="@dimen/_331sdp"
+                            android:layout_width="@dimen/_248sdp"
+                            android:layout_height="@dimen/_329sdp"
                             android:stateListAnimator="@null"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -53,8 +54,8 @@
 
                         <ImageView
                             android:id="@+id/edge_detection_view"
-            android:layout_width="@dimen/_248sdp"
-            android:layout_height="@dimen/_331sdp"
+                            android:layout_width="@dimen/_329sdp"
+                            android:layout_height="@dimen/_248sdp"
                             android:layout_gravity="center"
                             android:adjustViewBounds="false"
                             android:alpha="0.4"
@@ -70,7 +71,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
-                    android:layout_width="310dp"
+                    android:layout_width="@dimen/_248sdp"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
@@ -81,8 +82,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/cardView">
 
                         <ImageView
-                            android:layout_width="310dp"
-                            android:layout_height="85dp"
+                            android:layout_width="@dimen/_248sdp"
+                            android:layout_height="@dimen/_68sdp"
                             android:layout_gravity="start"
                             android:contentDescription="@string/image"
                             android:scaleType="fitXY"
@@ -91,8 +92,8 @@
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/camera_recyclerview"
-                            android:layout_width="299dp"
-                            android:layout_height="80dp"
+                            android:layout_width="@dimen/_248sdp"
+                            android:layout_height="@dimen/_66sdp"
                             android:layout_marginStart="4dp"
                             android:orientation="horizontal"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -109,10 +110,11 @@
 
                 <ImageButton
                     android:id="@+id/camera_capture_button"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@color/white"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:background="@color/transparent"
                     android:contentDescription="@string/image"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_camera_capture_button"
                     android:text="@string/take_photo"
@@ -138,8 +140,8 @@
 
                 <ImageButton
                     android:id="@+id/main_screen"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@color/white"
                     android:contentDescription="@string/image"
                     android:scaleType="fitCenter"
