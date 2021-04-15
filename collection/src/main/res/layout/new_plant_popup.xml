@@ -6,7 +6,7 @@
     <data>
         <variable
             name="popUp"
-            type="com.example.collection.presentation.popup.PopupFragment" />
+            type="com.lisasb.collection.presentation.popup.PopupFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/new_plant"
-            android:layout_width="116dp"
+            android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:fontFamily="@font/annie_use_your_telescope"
             android:gravity="center|center_vertical"
@@ -64,9 +64,8 @@
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:hint="@string/name"
-            android:text="@string/name"
             android:fontFamily="@font/annie_use_your_telescope"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/background"
             android:backgroundTint="@color/transparent"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/plant_name"

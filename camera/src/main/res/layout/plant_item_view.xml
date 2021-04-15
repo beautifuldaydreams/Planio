@@ -6,7 +6,7 @@
     <data>
         <variable
             name="plantIndividual"
-            type="com.example.storage.data.PlantIndividual" />
+            type="com.lisasb.storage.data.PlantIndividual" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +16,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="@+id/wrapper"
             app:layout_constraintEnd_toEndOf="@+id/wrapper"
             app:layout_constraintStart_toStartOf="@+id/wrapper"

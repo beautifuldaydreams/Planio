@@ -6,5 +6,5 @@
 
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.example.camera.presentation.CameraFragment" />
+        android:name="com.lisasb.camera.presentation.CameraFragment" />
 </navigation>

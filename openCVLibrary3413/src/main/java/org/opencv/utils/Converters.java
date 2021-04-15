@@ -22,6 +22,18 @@ import org.opencv.core.KeyPoint;
 
 public class Converters {
 
+    public static Mat vector_Point_to_Mat(List<Point> pts) {
+        return vector_Point_to_Mat(pts, CvType.CV_32S);
+    }
+
+    public static Mat vector_Point2f_to_Mat(List<Point> pts) {
+        return vector_Point_to_Mat(pts, CvType.CV_32F);
+    }
+
+    public static Mat vector_Point2d_to_Mat(List<Point> pts) {
+        return vector_Point_to_Mat(pts, CvType.CV_64F);
+    }
+
     public static Mat vector_Point_to_Mat(List<Point> pts, int typeDepth) {
         Mat res;
         int count = (pts != null) ? pts.size() : 0;
@@ -70,6 +82,18 @@ public class Converters {
             res = new Mat();
         }
         return res;
+    }
+
+    public static Mat vector_Point3i_to_Mat(List<Point3> pts) {
+        return vector_Point3_to_Mat(pts, CvType.CV_32S);
+    }
+
+    public static Mat vector_Point3f_to_Mat(List<Point3> pts) {
+        return vector_Point3_to_Mat(pts, CvType.CV_32F);
+    }
+
+    public static Mat vector_Point3d_to_Mat(List<Point3> pts) {
+        return vector_Point3_to_Mat(pts, CvType.CV_64F);
     }
 
     public static Mat vector_Point3_to_Mat(List<Point3> pts, int typeDepth) {

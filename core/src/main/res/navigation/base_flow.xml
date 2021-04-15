@@ -4,5 +4,5 @@
     app:startDestination="@id/startFragment"
     android:id="@id/base_flow">
 
-    <fragment android:id="@+id/startFragment" android:name="com.example.core.StartFragment" />
+    <fragment android:id="@+id/startFragment" android:name="com.lisasb.core.StartFragment" />
 </navigation>

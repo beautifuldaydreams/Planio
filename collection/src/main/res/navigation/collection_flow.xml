@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/collectionOverviewFragment"
-        android:name="com.example.collection.presentation.overview.CollectionOverviewFragment">
+        android:name="com.lisasb.collection.presentation.overview.CollectionOverviewFragment">
         <action
             android:id="@+id/action_collectionOverviewFragment_to_collectionIndividualFragment"
             app:destination="@id/collectionIndividualFragment" />
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/collectionIndividualFragment"
-        android:name="com.example.collection.presentation.individual.CollectionIndividualFragment">
+        android:name="com.lisasb.collection.presentation.individual.CollectionIndividualFragment">
         <action
             android:id="@+id/action_collectionIndividualFragment_to_collectionOverviewFragment"
             app:destination="@id/collectionOverviewFragment" />
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/popupFragment"
-        android:name="com.example.collection.presentation.popup.PopupFragment"
+        android:name="com.lisasb.collection.presentation.popup.PopupFragment"
         android:label="PopupFragment" >
         <action
             android:id="@+id/action_popupFragment_to_collectionOverviewFragment"

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="plantPhoto"
-            type="com.example.storage.data.PlantPhoto" />
+            type="com.lisasb.storage.data.PlantPhoto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,6 @@
         <androidx.cardview.widget.CardView
             android:layout_width="41.25dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
             app:cardCornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="@id/wrapper"
             app:layout_constraintEnd_toEndOf="@+id/wrapper"

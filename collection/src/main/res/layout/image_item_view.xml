@@ -7,7 +7,7 @@
 
         <variable
             name="plantIndividual"
-            type="com.example.storage.data.PlantIndividual" />
+            type="com.lisasb.storage.data.PlantIndividual" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="114.61dp"
-            android:layout_height="146.94dp"
+            android:layout_width="@dimen/_102sdp"
+            android:layout_height="@dimen/_130sdp"
             android:contentDescription="@string/todo"
             android:src="@drawable/ic_image_outline"
             android:translationZ="5dp"
@@ -29,9 +29,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
-            android:layout_width="113.88dp"
-            android:layout_height="146.2dp"
-            app:cardCornerRadius="17dp"
+            android:layout_width="@dimen/_102sdp"
+            android:layout_height="@dimen/_130sdp"
+            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             app:layout_constraintEnd_toEndOf="@+id/imageView3"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
@@ -39,8 +40,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="109.47dp"
-                android:layout_height="144dp"
+                android:layout_width="@dimen/_102sdp"
+                android:layout_height="@dimen/_130sdp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/todo"
                 app:imageFilePath="@{plantIndividual.plantFilePath}"
@@ -67,7 +68,7 @@
             android:layout_height="22dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="6dp"
-            android:fontFamily="@font/annie_use_your_telescope"
+            app:fontFamily="@font/annie_use_your_telescope"
             android:gravity="center"
             android:text="@{plantIndividual.plantName}"
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"

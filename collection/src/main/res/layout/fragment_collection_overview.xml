@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.collection.presentation.overview.CollectionOverviewViewModel" />
+            type="com.lisasb.collection.presentation.overview.CollectionOverviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,13 +17,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/overview_recycler_view"
-            android:layout_width="250dp"
-            android:layout_height="395dp"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_330sdp"
             android:foregroundGravity="center"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintHorizontal_bias="0.65"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.52"
@@ -39,6 +39,7 @@
             android:background="@color/background"
             android:src="@drawable/ic_button_outline"
             android:text="@string/home"
+            android:theme="@style/Theme.Planio"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -68,14 +69,16 @@
             android:id="@+id/textView3"
             android:layout_width="95dp"
             android:layout_height="30dp"
-            android:fontFamily="@font/annie_use_your_telescope"
+            app:fontFamily="@font/annie_use_your_telescope"
             android:gravity="center"
             android:text="@string/home"
+            android:theme="@style/Theme.Planio"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="@+id/to_main_screen"
             app:layout_constraintEnd_toEndOf="@+id/to_main_screen"
             app:layout_constraintStart_toStartOf="@+id/to_main_screen"
-            app:layout_constraintTop_toTopOf="@+id/to_main_screen" />
+            app:layout_constraintTop_toTopOf="@+id/to_main_screen"
+            app:layout_constraintVertical_bias="0.29000002" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

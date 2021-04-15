@@ -11,6 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">@android:color/darker_gray</item>
         <item name="android:fitsSystemWindows">true</item>
+        <item name="fontFamily">@font/annie_use_your_telescope</item>
+        <item name="android:fontFamily">@font/annie_use_your_telescope</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
