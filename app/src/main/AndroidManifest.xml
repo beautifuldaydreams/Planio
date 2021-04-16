@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lisasb.planio">
+    package="com.lisaschubeka.planio">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Planio">
 
-        <activity android:name="com.lisasb.planio.MainActivity"
+        <activity android:name="com.lisaschubeka.planio.MainActivity"
             android:theme="@style/Theme.Planio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

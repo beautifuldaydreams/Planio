@@ -15,7 +15,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -35,6 +34,9 @@ android {
     }
     buildFeatures {
         dataBinding true
+    }
+    kapt {
+        useBuildCache = false
     }
 }
 
@@ -56,6 +58,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
     implementation project(path: ':openCVLibrary3413')
     testImplementation 'junit:junit:4.+'
+    kapt "com.android.databinding:compiler:3.2.1"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 

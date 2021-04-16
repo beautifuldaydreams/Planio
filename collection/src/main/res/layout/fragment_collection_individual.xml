@@ -6,10 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.lisasb.collection.presentation.overview.CollectionOverviewViewModel" />
+            type="com.lisaschubeka.collection.presentation.overview.CollectionOverviewViewModel" />
         <variable
             name="plantPhoto"
-            type="com.lisasb.storage.data.PlantPhoto" />
+            type="com.lisaschubeka.storage.data.PlantPhoto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

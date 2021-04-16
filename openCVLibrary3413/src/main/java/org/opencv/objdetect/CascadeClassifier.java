@@ -110,7 +110,7 @@ public class CascadeClassifier {
      *     <b>Note:</b>
      * <ul>
      *   <li>
-     *           (Python) A face detection example using cascade classifiers can be found at
+     *           (Python) A face detection lisaschubeka using cascade classifiers can be found at
      *             opencv_source_code/samples/python/facedetect.py
      *   </li>
      * </ul>
@@ -139,7 +139,7 @@ public class CascadeClassifier {
      *     <b>Note:</b>
      * <ul>
      *   <li>
-     *           (Python) A face detection example using cascade classifiers can be found at
+     *           (Python) A face detection lisaschubeka using cascade classifiers can be found at
      *             opencv_source_code/samples/python/facedetect.py
      *   </li>
      * </ul>
@@ -167,7 +167,7 @@ public class CascadeClassifier {
      *     <b>Note:</b>
      * <ul>
      *   <li>
-     *           (Python) A face detection example using cascade classifiers can be found at
+     *           (Python) A face detection lisaschubeka using cascade classifiers can be found at
      *             opencv_source_code/samples/python/facedetect.py
      *   </li>
      * </ul>
@@ -194,7 +194,7 @@ public class CascadeClassifier {
      *     <b>Note:</b>
      * <ul>
      *   <li>
-     *           (Python) A face detection example using cascade classifiers can be found at
+     *           (Python) A face detection lisaschubeka using cascade classifiers can be found at
      *             opencv_source_code/samples/python/facedetect.py
      *   </li>
      * </ul>
@@ -220,7 +220,7 @@ public class CascadeClassifier {
      *     <b>Note:</b>
      * <ul>
      *   <li>
-     *           (Python) A face detection example using cascade classifiers can be found at
+     *           (Python) A face detection lisaschubeka using cascade classifiers can be found at
      *             opencv_source_code/samples/python/facedetect.py
      *   </li>
      * </ul>
@@ -245,7 +245,7 @@ public class CascadeClassifier {
      *     <b>Note:</b>
      * <ul>
      *   <li>
-     *           (Python) A face detection example using cascade classifiers can be found at
+     *           (Python) A face detection lisaschubeka using cascade classifiers can be found at
      *             opencv_source_code/samples/python/facedetect.py
      *   </li>
      * </ul>

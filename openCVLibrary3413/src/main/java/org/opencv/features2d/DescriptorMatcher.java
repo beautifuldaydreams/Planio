@@ -115,10 +115,10 @@ public class DescriptorMatcher extends Algorithm {
     /**
      * Trains a descriptor matcher
      *
-     *     Trains a descriptor matcher (for example, the flann index). In all methods to match, the method
-     *     train() is run every time before matching. Some descriptor matchers (for example, BruteForceMatcher)
+     *     Trains a descriptor matcher (for lisaschubeka, the flann index). In all methods to match, the method
+     *     train() is run every time before matching. Some descriptor matchers (for lisaschubeka, BruteForceMatcher)
      *     have an empty implementation of this method. Other matchers really train their inner structures (for
-     *     example, FlannBasedMatcher trains flann::Index ).
+     *     lisaschubeka, FlannBasedMatcher trains flann::Index ).
      */
     public void train() {
         train_0(nativeObj);

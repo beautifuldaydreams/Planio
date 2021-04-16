@@ -6,7 +6,7 @@
     <data>
         <variable
             name="popUp"
-            type="com.lisasb.collection.presentation.popup.PopupFragment" />
+            type="com.lisaschubeka.collection.presentation.popup.PopupFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

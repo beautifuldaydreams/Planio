@@ -54,7 +54,7 @@ public class VideoWriter {
     /**
      *
      *     @param filename Name of the output video file.
-     *     @param fourcc 4-character code of codec used to compress the frames. For example,
+     *     @param fourcc 4-character code of codec used to compress the frames. For lisaschubeka,
      *     VideoWriter::fourcc('P','I','M','1') is a MPEG-1 codec, VideoWriter::fourcc('M','J','P','G') is a
      *     motion-jpeg codec etc. List of codes can be obtained at [Video Codecs by
      *     FOURCC](http://www.fourcc.org/codecs.php) page. FFMPEG backend with MP4 container natively uses
@@ -90,7 +90,7 @@ public class VideoWriter {
     /**
      *
      *     @param filename Name of the output video file.
-     *     @param fourcc 4-character code of codec used to compress the frames. For example,
+     *     @param fourcc 4-character code of codec used to compress the frames. For lisaschubeka,
      *     VideoWriter::fourcc('P','I','M','1') is a MPEG-1 codec, VideoWriter::fourcc('M','J','P','G') is a
      *     motion-jpeg codec etc. List of codes can be obtained at [Video Codecs by
      *     FOURCC](http://www.fourcc.org/codecs.php) page. FFMPEG backend with MP4 container natively uses

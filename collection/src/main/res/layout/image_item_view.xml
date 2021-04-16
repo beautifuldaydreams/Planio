@@ -7,7 +7,7 @@
 
         <variable
             name="plantIndividual"
-            type="com.lisasb.storage.data.PlantIndividual" />
+            type="com.lisaschubeka.storage.data.PlantIndividual" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,6 +69,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="6dp"
             app:fontFamily="@font/annie_use_your_telescope"
+            android:theme="@style/Theme.Planio"
             android:gravity="center"
             android:text="@{plantIndividual.plantName}"
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"

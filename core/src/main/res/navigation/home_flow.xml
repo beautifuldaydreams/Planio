@@ -6,9 +6,19 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.lisasb.core.presentation.MainScreenFragment">
+        android:name="com.lisaschubeka.core.presentation.MainScreenFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
     </fragment>
-
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.lisaschubeka.core.presentation.PrivacyPolicyFragment"
+        android:label="PrivacyPolicyFragment" >
+        <action
+            android:id="@+id/action_privacyPolicyFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
 
 </navigation>

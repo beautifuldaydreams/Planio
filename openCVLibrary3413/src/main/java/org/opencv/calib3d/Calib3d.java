@@ -1513,7 +1513,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -1792,7 +1792,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -2070,7 +2070,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -2182,7 +2182,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2244,7 +2244,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2305,7 +2305,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2365,7 +2365,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2424,7 +2424,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2482,7 +2482,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2539,7 +2539,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePNPRansac for object detection can be found at
+     *       An lisaschubeka of how to use solvePNPRansac for object detection can be found at
      *         opencv_source_code/samples/cpp/tutorial_code/calib3d/real_time_pose_estimation/
      *   </li>
      *   <li>
@@ -2980,7 +2980,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -3262,7 +3262,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -3543,7 +3543,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -3823,7 +3823,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -4102,7 +4102,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -4380,7 +4380,7 @@ public class Calib3d {
      * <b>Note:</b>
      * <ul>
      *   <li>
-     *       An example of how to use solvePnP for planar augmented reality can be found at
+     *       An lisaschubeka of how to use solvePnP for planar augmented reality can be found at
      *         opencv_source_code/samples/python/plane_ar.py
      *   </li>
      *   <li>
@@ -4542,7 +4542,7 @@ public class Calib3d {
      * The function attempts to determine whether the input image is a view of the chessboard pattern and
      * locate the internal chessboard corners. The function returns a non-zero value if all of the corners
      * are found and they are placed in a certain order (row by row, left to right in every row).
-     * Otherwise, if the function fails to find all the corners or reorder them, it returns 0. For example,
+     * Otherwise, if the function fails to find all the corners or reorder them, it returns 0. For lisaschubeka,
      * a regular chessboard has 8 x 8 squares and 7 x 7 internal corners, that is, points where the black
      * squares touch each other. The detected coordinates are approximate, and to determine their positions
      * more accurately, the function calls cornerSubPix. You also may use the function cornerSubPix with
@@ -4607,7 +4607,7 @@ public class Calib3d {
      * The function attempts to determine whether the input image is a view of the chessboard pattern and
      * locate the internal chessboard corners. The function returns a non-zero value if all of the corners
      * are found and they are placed in a certain order (row by row, left to right in every row).
-     * Otherwise, if the function fails to find all the corners or reorder them, it returns 0. For example,
+     * Otherwise, if the function fails to find all the corners or reorder them, it returns 0. For lisaschubeka,
      * a regular chessboard has 8 x 8 squares and 7 x 7 internal corners, that is, points where the black
      * squares touch each other. The detected coordinates are approximate, and to determine their positions
      * more accurately, the function calls cornerSubPix. You also may use the function cornerSubPix with
@@ -5526,10 +5526,10 @@ public class Calib3d {
      * Besides the stereo-related information, the function can also perform a full calibration of each of
      * the two cameras. However, due to the high dimensionality of the parameter space and noise in the
      * input data, the function can diverge from the correct solution. If the intrinsic parameters can be
-     * estimated with high accuracy for each of the cameras individually (for example, using
+     * estimated with high accuracy for each of the cameras individually (for lisaschubeka, using
      * calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
      * function along with the computed intrinsic parameters. Otherwise, if all the parameters are
-     * estimated at once, it makes sense to restrict some parameters, for example, pass
+     * estimated at once, it makes sense to restrict some parameters, for lisaschubeka, pass
      *  REF: CALIB_SAME_FOCAL_LENGTH and REF: CALIB_ZERO_TANGENT_DIST flags, which is usually a
      * reasonable assumption.
      *
@@ -5686,10 +5686,10 @@ public class Calib3d {
      * Besides the stereo-related information, the function can also perform a full calibration of each of
      * the two cameras. However, due to the high dimensionality of the parameter space and noise in the
      * input data, the function can diverge from the correct solution. If the intrinsic parameters can be
-     * estimated with high accuracy for each of the cameras individually (for example, using
+     * estimated with high accuracy for each of the cameras individually (for lisaschubeka, using
      * calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
      * function along with the computed intrinsic parameters. Otherwise, if all the parameters are
-     * estimated at once, it makes sense to restrict some parameters, for example, pass
+     * estimated at once, it makes sense to restrict some parameters, for lisaschubeka, pass
      *  REF: CALIB_SAME_FOCAL_LENGTH and REF: CALIB_ZERO_TANGENT_DIST flags, which is usually a
      * reasonable assumption.
      *
@@ -5845,10 +5845,10 @@ public class Calib3d {
      * Besides the stereo-related information, the function can also perform a full calibration of each of
      * the two cameras. However, due to the high dimensionality of the parameter space and noise in the
      * input data, the function can diverge from the correct solution. If the intrinsic parameters can be
-     * estimated with high accuracy for each of the cameras individually (for example, using
+     * estimated with high accuracy for each of the cameras individually (for lisaschubeka, using
      * calibrateCamera ), you are recommended to do so and then pass REF: CALIB_FIX_INTRINSIC flag to the
      * function along with the computed intrinsic parameters. Otherwise, if all the parameters are
-     * estimated at once, it makes sense to restrict some parameters, for example, pass
+     * estimated at once, it makes sense to restrict some parameters, for lisaschubeka, pass
      *  REF: CALIB_SAME_FOCAL_LENGTH and REF: CALIB_ZERO_TANGENT_DIST flags, which is usually a
      * reasonable assumption.
      *
@@ -6625,7 +6625,7 @@ public class Calib3d {
      *    While the algorithm does not need to know the intrinsic parameters of the cameras, it heavily
      *     depends on the epipolar geometry. Therefore, if the camera lenses have a significant distortion,
      *     it would be better to correct it before computing the fundamental matrix and calling this
-     *     function. For example, distortion coefficients can be estimated for each head of stereo camera
+     *     function. For lisaschubeka, distortion coefficients can be estimated for each head of stereo camera
      *     separately by using calibrateCamera . Then, the images can be corrected using undistort , or
      *     just the point coordinates can be corrected with undistortPoints .
      * @return automatically generated
@@ -6659,7 +6659,7 @@ public class Calib3d {
      *    While the algorithm does not need to know the intrinsic parameters of the cameras, it heavily
      *     depends on the epipolar geometry. Therefore, if the camera lenses have a significant distortion,
      *     it would be better to correct it before computing the fundamental matrix and calling this
-     *     function. For example, distortion coefficients can be estimated for each head of stereo camera
+     *     function. For lisaschubeka, distortion coefficients can be estimated for each head of stereo camera
      *     separately by using calibrateCamera . Then, the images can be corrected using undistort , or
      *     just the point coordinates can be corrected with undistortPoints .
      * @return automatically generated

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <data />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -91,6 +93,20 @@
                     app:layout_constraintEnd_toEndOf="@+id/to_collections"
                     app:layout_constraintStart_toStartOf="@+id/to_collections"
                     app:layout_constraintTop_toBottomOf="@+id/to_collections" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@color/transparent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.97"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.98"
+                    app:srcCompat="@android:drawable/ic_menu_info_details" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

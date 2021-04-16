@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.lisasb.collection.presentation.overview.CollectionOverviewViewModel" />
+            type="com.lisaschubeka.collection.presentation.overview.CollectionOverviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,13 +17,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/overview_recycler_view"
-            android:layout_width="@dimen/_250sdp"
+            android:layout_width="@dimen/_230sdp"
             android:layout_height="@dimen/_330sdp"
             android:foregroundGravity="center"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.65"
+            app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.52"
