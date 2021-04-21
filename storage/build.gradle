@@ -54,9 +54,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //RxJava 2
-    implementation "io.reactivex.rxjava3:rxjava:3.0.11-RC5"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:2.2.0"
 }
 
