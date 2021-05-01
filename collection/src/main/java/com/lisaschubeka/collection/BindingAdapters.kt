@@ -2,17 +2,20 @@ package com.lisaschubeka.collection
 
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lisaschubeka.collection.presentation.individual.CollectionIndividualAdapter
 import com.lisaschubeka.collection.presentation.overview.CollectionOverviewAdapter
+import com.lisaschubeka.storage.SharedPreferences.Companion.getNewSpIdNumber
 import com.lisaschubeka.storage.data.PlantIndividual
 import com.lisaschubeka.storage.data.PlantPhoto
 import java.io.File
 import java.io.FileInputStream
 import java.io.ObjectInputStream
+
 
 @BindingAdapter("imageFilePath")
 fun bindImage(imgView: ImageView, imgUrl: File) {
@@ -85,5 +88,10 @@ fun loadImage(imgView: ImageView, imgUrl: File?) {
                     .error(R.drawable.ic_launcher_foreground))
             .into(imgView)
     }
+}
+
+@BindingAdapter("textPlant")
+fun loadText(textView: TextView, plantIndividual: PlantIndividual){
+    textView.text = getNewSpIdNumber(plantIndividual.plantId.toString() + "a", textView.context, plantIndividual.plantName)
 }
 

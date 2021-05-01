@@ -73,6 +73,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.357"
+                android:background="@color/white"
                 app:singleImage="@{viewModel.plantPhotoDisplay.plantFilePath}" />
         </androidx.cardview.widget.CardView>
 
@@ -106,7 +107,7 @@
             app:layout_constraintTop_toTopOf="@+id/to_collection_overview"
             app:srcCompat="@drawable/ic_save_button" />
 
-        <TextView
+        <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,13 +115,17 @@
             android:background="@color/white"
             app:fontFamily="@font/annie_use_your_telescope"
             android:text="@string/name"
+            android:textAllCaps="false"
             android:textSize="20sp"
             android:translationZ="0dp"
+            android:stateListAnimator="@null"
             app:layout_constraintBottom_toTopOf="@+id/cardView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
@@ -160,7 +165,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:layout_constraintVertical_bias="0.25"
                 app:listPhotoData="@{viewModel.listPlantPhoto}"
-                tools:listitem="@layout/image_plant_photo_view" />
+                tools:listitem="@layout/image_plant_photo_view"
+                android:background="@color/white"/>
 
         </androidx.cardview.widget.CardView>
 

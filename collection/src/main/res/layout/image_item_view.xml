@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="plantIndividual"
             type="com.lisaschubeka.storage.data.PlantIndividual" />
+        <variable
+            name="sp"
+            type="com.lisaschubeka.storage.SharedPreferences"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -49,7 +52,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageView3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.26"/>
+                app:layout_constraintVertical_bias="0.26"
+                android:background="@color/white"/>
         </androidx.cardview.widget.CardView>
 
         <ImageView
@@ -71,7 +75,8 @@
             app:fontFamily="@font/annie_use_your_telescope"
             android:theme="@style/Theme.Planio"
             android:gravity="center"
-            android:text="@{plantIndividual.plantName}"
+            android:textColor="@color/black"
+            app:textPlant="@{plantIndividual}"
             app:layout_constraintBottom_toBottomOf="@+id/textWrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

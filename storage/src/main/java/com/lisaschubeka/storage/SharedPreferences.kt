@@ -20,12 +20,22 @@ class SharedPreferences {
             editor.apply()
         }
 
-        fun getNewSpIdNumber(spName: String, context: Context) : String? {
+        fun getNewSpIdNumber(spName: String, context: Context, defValue: String) : String? {
             val sharedPreferences : SharedPreferences = context.getSharedPreferences(
                 spName,
                 Context.MODE_PRIVATE
             )
-            return sharedPreferences.getString(spName, "0")
+            return sharedPreferences.getString(spName, defValue)
+        }
+
+        fun editSpPlantName(oldSpName: String, context: Context, newSpName: String){
+            val sharedPreferences : SharedPreferences = context.getSharedPreferences(
+                oldSpName,
+                Context.MODE_PRIVATE
+            )
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            var num = sharedPreferences.getString(oldSpName, oldSpName)
+            editor.putString(oldSpName, newSpName).apply()
         }
     }
 }

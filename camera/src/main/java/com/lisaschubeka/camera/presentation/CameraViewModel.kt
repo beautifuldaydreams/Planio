@@ -79,7 +79,7 @@ class CameraViewModel(application: Application)  : AndroidViewModel(application)
 
         val plantIndi = selectForPreview.value
         val sPNum = getNewSpIdNumber(
-            plantIndi?.plantId.toString(), context)?.toInt()
+            plantIndi?.plantId.toString(), context, "0")?.toInt()
 
         val newImage = sPNum?.let {
             plantIndi?.plantId?.let { it1 -> PlantPhoto(it1, photoFile, it) }

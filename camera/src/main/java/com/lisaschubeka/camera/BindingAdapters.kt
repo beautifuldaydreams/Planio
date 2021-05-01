@@ -1,12 +1,14 @@
 package com.lisaschubeka.camera
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lisaschubeka.camera.R
 import com.lisaschubeka.camera.presentation.CameraAdapter
+import com.lisaschubeka.storage.SharedPreferences
 import com.lisaschubeka.storage.data.PlantIndividual
 import com.lisaschubeka.storage.data.PlantPhoto
 import java.io.File
@@ -47,4 +49,13 @@ fun findLastPlantImage(imgUrl: File): File? {
         e.printStackTrace()
     }
         return item?.plantFilePath
+}
+
+@BindingAdapter("textPlant")
+fun loadText(textView: TextView, plantIndividual: PlantIndividual){
+    textView.text = SharedPreferences.getNewSpIdNumber(
+        plantIndividual.plantId.toString() + "a",
+        textView.context,
+        plantIndividual.plantName
+    )
 }

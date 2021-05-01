@@ -149,7 +149,7 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
     }
 
     fun makeNewPlant(name: String) {
-        val plntIndiSPNum = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context)?.toInt()
+        val plntIndiSPNum = getNewSpIdNumber(context.getString(R.string.plntIndiSPNum), context, "0")?.toInt()
 
         val plantPhotoFilePath = File(context.getExternalFilesDir(null), "planio/dataclasses")
         if (!plantPhotoFilePath.exists()) {
@@ -209,17 +209,21 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
         val filename = "${System.currentTimeMillis()}.jpg"
         var fos: OutputStream? = null
 
-        if (Environment.MEDIA_MOUNTED == state) {
-            isStorageWritable = true
-            isStorageExist = isStorageWritable
-        } else if (Environment.MEDIA_MOUNTED_READ_ONLY == state) {
-            isStorageExist = true
-            isStorageWritable = false
-            Toast.makeText(context, "Storage is read only", Toast.LENGTH_SHORT).show()
-        } else {
-            isStorageWritable = false
-            isStorageExist = isStorageWritable
-            Toast.makeText(context, "Storage is not exist", Toast.LENGTH_SHORT).show()
+        when {
+            Environment.MEDIA_MOUNTED == state -> {
+                isStorageWritable = true
+                isStorageExist = isStorageWritable
+            }
+            Environment.MEDIA_MOUNTED_READ_ONLY == state -> {
+                isStorageExist = true
+                isStorageWritable = false
+                Toast.makeText(context, "Storage is read only", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                isStorageWritable = false
+                isStorageExist = isStorageWritable
+                Toast.makeText(context, "Storage is not exist", Toast.LENGTH_SHORT).show()
+            }
         }
 
         if (isStorageExist && isStorageWritable){
@@ -258,7 +262,6 @@ class CollectionOverviewViewModel(application: Application) : AndroidViewModel(a
                     }
                     val image = File(imagesDir, filename)
                     fos = FileOutputStream(image)
-                    Log.i("SAVEPHOTO", image.absolutePath)
                     MediaScannerConnection.scanFile(context, arrayOf(image.toString()), null
                     ) { path, uri ->
                         Log.i("ExternalStorage", "Scanned $path:")

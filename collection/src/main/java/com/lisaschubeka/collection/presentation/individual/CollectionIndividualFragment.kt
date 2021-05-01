@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.lisaschubeka.collection.R
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,20 +27,29 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lisaschubeka.collection.databinding.FragmentCollectionIndividualBinding
 import com.lisaschubeka.collection.presentation.overview.CollectionOverviewViewModel
+import com.lisaschubeka.collection.presentation.popup.EditPopupFragment
+import com.lisaschubeka.collection.presentation.popup.PopupFragment
+import com.lisaschubeka.storage.SharedPreferences.Companion.editSpPlantName
+import com.lisaschubeka.storage.SharedPreferences.Companion.getNewSpIdNumber
 import com.lisaschubeka.storage.data.PlantPhoto
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.io.File
 
 
-class CollectionIndividualFragment: Fragment() {
+class CollectionIndividualFragment: Fragment(), EditPopupFragment.OnInputSelected {
 
     private lateinit var binding: FragmentCollectionIndividualBinding
 
     val context = this
+    private lateinit var dialog: EditPopupFragment
 
     private var currentBitmap: Bitmap? =null
     private val viewModel: CollectionOverviewViewModel by activityViewModels()
     var imgUrl : File? = null
     private lateinit var safeContext: Context
+    private var plantName: String? = null
+    private var plantId: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -68,7 +79,17 @@ class CollectionIndividualFragment: Fragment() {
             viewModel.displayPlantDetailsComplete()
         }
 
-        binding.button.text = viewModel.navigateToSelectedPlant.value?.plantName
+        plantName = viewModel.navigateToSelectedPlant.value?.plantName
+        plantId = viewModel.navigateToSelectedPlant.value?.plantId.toString()
+
+        binding.button.text = plantId?.let { getNewSpIdNumber(it + "a", safeContext, plantName!!) }
+        Log.i("check", "onCreateView:  New:${plantId?.let { getNewSpIdNumber(it + "a", safeContext, plantName!!) }}")
+
+        binding.button.setOnClickListener{
+            dialog = EditPopupFragment()
+            dialog.setTargetFragment(this, 1)
+            dialog.show(parentFragmentManager, "editPopupFragment")
+        }
 
         binding.collectionIndividualRecyclerview.adapter =
             CollectionIndividualAdapter((CollectionIndividualAdapter.OnClickListener {
@@ -118,7 +139,6 @@ class CollectionIndividualFragment: Fragment() {
 
         val plantIndividual =
             CollectionIndividualFragmentArgs.fromBundle(requireArguments()).selectedPlant
-        val plantIndividualName = plantIndividual.plantName
         binding.spinner.adapter = adapter
         binding.spinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -154,8 +174,8 @@ class CollectionIndividualFragment: Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
-        binding.button.text = plantIndividualName
         binding.viewModel = viewModel
+
         return binding.root
     }
 
@@ -183,5 +203,16 @@ class CollectionIndividualFragment: Fragment() {
     companion object {
         internal const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun sendInput(input: String) {
+        val notEditedPlantName = plantId?.let { getNewSpIdNumber(it + "a", safeContext, input) }
+        if (notEditedPlantName != null) {
+            editSpPlantName(plantId+ "a", safeContext, input)
+        }
+    }
+
+    fun onChangeText() {
+        binding.button.text = plantId?.let { getNewSpIdNumber(it + "a", safeContext, plantName!!) }
     }
 }

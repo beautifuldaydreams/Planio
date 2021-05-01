@@ -24,7 +24,7 @@ class CollectionOverviewAdapter(private val onClickListener: OnClickListener) : 
         holder: PlantIndividualViewHolder,
         position: Int
     ) {
-        val plantIndividual = getItem(position)
+        var plantIndividual = getItem(position)
         holder.itemView.setOnClickListener {
             onClickListener.onClick(plantIndividual)
         }
